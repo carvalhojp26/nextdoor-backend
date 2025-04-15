@@ -2,32 +2,25 @@ const sql = require("mssql");
 require("dotenv").config();
 
 const config = {
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     server: process.env.DB_SERVER,
     port: parseInt(process.env.DB_PORT),
     database: process.env.DB_DATABASE,
     options: {
         encrypt: false,
-        trustServerCertificate: true
-    },
-    authentication: {
-        type: "ntlm",
-        options: {
-            domain: "",
-            username: process.env.DB_USERNAME,
-            password: ""
-        }
+        trustServerCertificate: true,
     }
 };
 
-const pool = new sql.ConnectionPool(config);
-const poolConnect = pool.connect();
-
-pool.on("error", error => {
-    console.error("Error connecting to SQL Server");
-});
+const poolPromise = new sql.ConnectionPool(config)
+  .connect()
+  .then(pool => {
+    console.log('Connected to MSSQL')
+    return pool
+  })
+  .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
 
 module.exports = {
-    sql,
-    poolConnect,
-    pool
-};
+  sql, poolPromise
+}

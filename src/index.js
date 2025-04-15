@@ -1,12 +1,16 @@
 const express = require("express");
-const { poolConnect } = require("./config/db");
+const { poolPromise } = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+app.use("/api/users", userRoutes);
+
 app.get('/', async (req, res) => {
     try {
-        await poolConnect
+        await poolPromise
         res.send("Connection with database successful");
     } catch (error) {
         console.error("Error connecting to database: ", error);
