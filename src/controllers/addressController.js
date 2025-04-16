@@ -12,36 +12,13 @@ const listAddresses = async (req, res) => {
 };
 
 const addAddresses = async (req, res) => {
-  const { numeroPorta, distrito, freguesia, codigoPostal } = req.body;
-  console.log("req.body: ", req.body);
-
-  try {
-    const pool = await poolPromise;
-    await pool
-      .request()
-      .input("numeroPorta", numeroPorta)
-      .input("distrito", distrito)
-      .input("freguesia", freguesia)
-      .input("codigoPostal", codigoPostal).query(`      
-                INSERT INTO [dbo].[Endereco] (
-                    numeroPorta,
-                    distrito,
-                    freguesia,
-                    codigoPostal
-                )
-                VALUES (
-                    @numeroPorta,
-                    @distrito,
-                    @freguesia,
-                    @codigoPostal
-                )
-            `);
-
-    res.status(201).json({ message: "Adress added successfully" });
-  } catch (error) {
-    console.error("Error adding adress in database:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+    try {
+        const result = await addressService.insertAddress(req.body)
+        res.status(201).json({ message: "Address added successfully", result });
+    } catch (error) {
+        console.error("Error adding address in database:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
 
 const updateAddresses = async (req, res) => {
