@@ -4,7 +4,7 @@ const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const storeRoutes = require("./routes/storeRoutes");
 const tasksRoutes = require("./routes/taskRoutes");
-const adressRoutes = require("./routes/adressRoutes");
+const addressRoutes = require("./routes/addressRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,7 +14,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/stores", storeRoutes);
 app.use("/api/tasks", tasksRoutes);
-app.use("/api/adresses", adressRoutes);
+app.use("/api/addresses", addressRoutes);
 
 app.get("/", async (req, res) => {
   try {
