@@ -1,14 +1,13 @@
-const { poolPromise } = require("../config/db");
+const productService = require("../services/productService")
 
-const getProducts = async (req, res) => {
+const listProducts = async (req, res) => {
     try {
-        const pool = await poolPromise
-        const result = await pool.request().query('SELECT * FROM [dbo].[Produto];');
-        res.json(result.recordset);
+        const result = await productService.getProducts();
+        res.json(result);
     } catch (error) {
         console.error("Error getting products from database: ", error);
         res.status(500).json("Internal server error");
     };
 };
 
-module.exports = { getProducts };
+module.exports = { listProducts };
