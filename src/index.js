@@ -3,6 +3,7 @@ const { poolPromise } = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const storeRoutes = require("./routes/storeRoutes");
+const tasksRoutes = require("./routes/taskRoutes")
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/stores", storeRoutes);
+app.use("/api/tasks", tasksRoutes);
 
 app.get('/', async (req, res) => {
     try {
