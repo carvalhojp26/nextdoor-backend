@@ -7,7 +7,6 @@ const getUsers = async () => {
         return result.recordset;
     } catch (error) {
         console.error("Error getting users in database: ", error);
-        res.status(500).json({ error: "Internal server error"});
     }
 }
 
@@ -68,8 +67,16 @@ const insertUser = async (body) => {
         return result.recordset;
     } catch (error) {
         console.error("Error adding user in database:", error);
-        res.status(500).json({ error: "Internal server error" });
     }
 }
 
-module.exports = { getUsers, insertUser };
+const deleteUser = async (idUtilizador) => {
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request().input('idUtilizador', idUtilizador).query('DELETE [dbo].[Utilizador] WHERE idUtilizador = @idUtilizador');
+        return result.recordset;
+    } catch (error) {
+        console.error("Error deleting user in database: ", error);
+    }
+}
+module.exports = { getUsers, insertUser, deleteUser };
