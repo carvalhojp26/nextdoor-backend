@@ -1,4 +1,3 @@
-const { poolPromise } = require("../config/db");
 const addressService = require("../services/addressService");
 
 const listAddresses = async (req, res) => {
@@ -12,36 +11,21 @@ const listAddresses = async (req, res) => {
 };
 
 const addAddresses = async (req, res) => {
-    try {
-        const result = await addressService.insertAddress(req.body)
-        res.status(201).json({ message: "Address added successfully", result });
-    } catch (error) {
-        console.error("Error adding address in database:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
+  try {
+    const result = await addressService.insertAddress(req.body);
+    res.status(201).json({ message: "Address added successfully", result });
+  } catch (error) {
+    console.error("Error adding address in database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-const updateAddresses = async (req, res) => {
+const changeAddresses = async (req, res) => {
   const { idEndereco } = req.params;
-  const { numeroPorta, distrito, freguesia, codigoPostal } = req.body;
+  const body = req.body;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("idEndereco", idEndereco)
-      .input("numeroPorta", numeroPorta)
-      .input("distrito", distrito)
-      .input("freguesia", freguesia)
-      .input("codigoPostal", codigoPostal).query(`
-          UPDATE [dbo].[Endereco]
-          SET 
-            numeroPorta = @numeroPorta,
-            distrito = @distrito,
-            freguesia = @freguesia,
-            codigoPostal = @codigoPostal
-          WHERE idEndereco = @idEndereco
-        `);
+    const result = await addressService.updateAddresses(idEndereco, body);
 
     if (result.rowsAffected[0] > 0) {
       res.status(200).json({
@@ -57,4 +41,5 @@ const updateAddresses = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { listAddresses, addAddresses, updateAddresses };
+
+module.exports = { listAddresses, addAddresses, changeAddresses };
