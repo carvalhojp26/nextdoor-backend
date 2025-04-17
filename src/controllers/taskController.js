@@ -10,4 +10,15 @@ const listTasks = async (req, res) => {
     }
 }
 
-module.exports = { listTasks };
+const addTaskController = async (req, res) => {
+    try {
+        const result = await taskService.addTask(req.body);
+        res.status(201).json({ message: "Task added successfully" });
+        res.json(result);
+    } catch (error) {
+        console.error("Error adding task in database: ", error);
+        res.status(500).json("Internal server error.");
+    }
+}
+
+module.exports = { listTasks, addTaskController };

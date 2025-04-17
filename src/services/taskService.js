@@ -7,8 +7,44 @@ const getTasks = async () => {
         return result.recordset;
     } catch (error) {
         console.error("Error getting tasks in database: ", error);
-        res.status(500).json({ error: "Internal server error"});
     }
 }
 
-module.exports = { getTasks };
+const addTask = async (body) => {
+    const {nomeTarefa, dataInicio, dataFim, descricaoTarefa, idUtilizador, categoriaTarefa, estadoTarefa} = body;
+
+    try {
+        const pool = await poolPromise;
+        const result = await pool.request()
+                                .input('nomeTarefa', nomeTarefa)
+                                .input('dataInicio', dataInicio)
+                                .input('dataFim', dataFim)
+                                .input('descricaoTarefa', descricaoTarefa)
+                                .input('idUtilizador', idUtilizador)
+                                .input('categoriaTarefa', categoriaTarefa)
+                                .input('estadoTarefa', estadoTarefa)
+                                .query(`INSERT INTO [dbo].[criacaoTarefa] (
+                                        nomeTarefa,
+                                        dataInicio,
+                                        dataFim,
+                                        descricaoTarefa,
+                                        UtilizadoridUtilizador,
+                                        categoriaTarefaidCategoriaTarefa,
+                                        estadoCriacaoTarefaidEstadoCriacaoTarefa   
+                                    )
+                                    VALUES (
+                                        @nomeTarefa,
+                                        @dataInicio,
+                                        @dataFim,
+                                        @descricaoTarefa,
+                                        @idUtilizador,
+                                        @categoriaTarefa,
+                                        @estadoTarefa 
+                                    )`)
+        return result.recordset;
+    } catch (error) {
+        console.error("Error adding task in database: ", error)
+    }
+}
+
+module.exports = { getTasks, addTask };
