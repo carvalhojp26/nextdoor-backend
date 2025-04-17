@@ -42,4 +42,32 @@ const insertAddress = async (body) => {
       }
 }
 
-module.exports = { getAddress, insertAddress }
+const updateAddress = async (idEndereco, body) => {
+    const { numeroPorta, distrito, freguesia, codigoPostal } = body;
+    try {
+      const pool = await poolPromise;
+      const result = await pool
+        .request()
+        .input("idEndereco", idEndereco)
+        .input("numeroPorta", numeroPorta)
+        .input("distrito", distrito)
+        .input("freguesia", freguesia)
+        .input("codigoPostal", codigoPostal)
+        .query(`
+          UPDATE [dbo].[Endereco]
+          SET 
+            numeroPorta = @numeroPorta,
+            distrito = @distrito,
+            freguesia = @freguesia,
+            codigoPostal = @codigoPostal
+          WHERE idEndereco = @idEndereco
+        `);
+  
+        return result.rowsAffected[0];
+    } catch (error) {
+        console.error("Error updating address in database:", error);
+        throw new Error("Internal server error");
+    }
+};
+
+module.exports = { getAddress, insertAddress, updateAddress }

@@ -1,4 +1,3 @@
-const { poolPromise } = require("../config/db");
 const addressService = require("../services/addressService");
 
 const listAddresses = async (req, res) => {
@@ -21,40 +20,21 @@ const addAddresses = async (req, res) => {
     }
 };
 
-const updateAddresses = async (req, res) => {
+const updateAddressController = async (req, res) => {
   const { idEndereco } = req.params;
-  const { numeroPorta, distrito, freguesia, codigoPostal } = req.body;
+  const updatedData = req.body;
 
   try {
-    const pool = await poolPromise;
-    const result = await pool
-      .request()
-      .input("idEndereco", idEndereco)
-      .input("numeroPorta", numeroPorta)
-      .input("distrito", distrito)
-      .input("freguesia", freguesia)
-      .input("codigoPostal", codigoPostal).query(`
-          UPDATE [dbo].[Endereco]
-          SET 
-            numeroPorta = @numeroPorta,
-            distrito = @distrito,
-            freguesia = @freguesia,
-            codigoPostal = @codigoPostal
-          WHERE idEndereco = @idEndereco
-        `);
+    const rowsAffected = await addressService.updateAddress(idEndereco, updatedData);
 
-    if (result.rowsAffected[0] > 0) {
-      res.status(200).json({
-        message: `Address with id ${idEndereco} updated successfully.`,
-      });
+    if (rowsAffected > 0) {
+      res.status(200).json({ message: `Address with id ${idEndereco} updated successfully.` });
     } else {
-      res
-        .status(404)
-        .json({ error: `Address with id ${idEndereco} not found.` });
+      res.status(404).json({ error: `Address with id ${idEndereco} not found.` });
     }
   } catch (error) {
-    console.error("Error updating address in database:", error);
+    console.error(error)
     res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { listAddresses, addAddresses, updateAddresses };
+module.exports = { listAddresses, addAddresses, updateAddressController };
