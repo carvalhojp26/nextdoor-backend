@@ -42,7 +42,7 @@ const insertAddress = async (body) => {
   }
 };
 
-const updateAddresses = async (idEndereco, body) => {
+const updateAddress = async (idEndereco, body) => {
   const { numeroPorta, distrito, freguesia, codigoPostal } = body;
 
   try {
@@ -70,4 +70,4 @@ const updateAddresses = async (idEndereco, body) => {
   }
 };
 
-module.exports = { getAddress, insertAddress, updateAddresses };
+module.exports = { getAddress, insertAddress, updateAddress };

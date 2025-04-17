@@ -25,7 +25,7 @@ const changeAddresses = async (req, res) => {
   const body = req.body;
 
   try {
-    const result = await addressService.updateAddresses(idEndereco, body);
+    const result = await addressService.updateAddress(idEndereco, body);
 
     if (result.rowsAffected[0] > 0) {
       res.status(200).json({
