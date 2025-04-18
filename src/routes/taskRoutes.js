@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { listTasks, addTaskController } = require("../controllers/taskController");
+const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 
-router.get('/', listTasks);
-router.post('/', addTaskController);
+router.get('/', sqlInjectionGuard, listTasks);
+router.post('/', sqlInjectionGuard, addTaskController);
 
 module.exports = router;
