@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { listUsers, addUser } = require("../controllers/userController");
+const { listUsers, addUser, deleteUserController } = require("../controllers/userController");
+const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 
-router.get('/', listUsers);
-router.post('/', addUser)
+router.get('/', sqlInjectionGuard, listUsers);
+router.post('/', sqlInjectionGuard, addUser);
+router.delete('/:idUtilizador', sqlInjectionGuard, deleteUserController);
 
 module.exports = router;
