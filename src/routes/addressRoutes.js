@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { listAddresses, addAddresses, updateAddressController } = require("../controllers/addressController");
+const {
+  listAddresses,
+  addAddresses,
+  updateAddressController,
+} = require("../controllers/addressController");
 const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 
 router.get("/", sqlInjectionGuard, listAddresses);

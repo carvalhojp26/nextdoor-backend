@@ -1,26 +1,43 @@
-const sql = require("mssql");
+const { Sequelize, DataTypes } = require("sequelize");
 require("dotenv").config();
 
-const config = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_SERVER,
     port: parseInt(process.env.DB_PORT),
-    database: process.env.DB_DATABASE,
-    options: {
-        encrypt: false,
+    dialect: "mssql",
+    dialectOptions: {
+      options: {
         trustServerCertificate: true,
-    }
-};
+      },
+    },
+  }
+);
 
-const poolPromise = new sql.ConnectionPool(config)
-  .connect()
-  .then(pool => {
-    console.log('Connected to MSSQL')
-    return pool
-  })
-  .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
 
-module.exports = {
-  sql, poolPromise
-}
+db.Utilizador = require("../models/userModel")(sequelize, DataTypes);
+db.Endereco = require("../models/addressModel")(sequelize, DataTypes);
+db.Vizinhanca = require("../models/neighborhoodModel")(sequelize, DataTypes);
+db.estadoUtilizador = require("../models/userStateModel")(sequelize, DataTypes);
+db.tipoUtilizador = require("../models/userTypeModel")(sequelize, DataTypes);
+
+db.Utilizador.belongsTo(db.Endereco, {
+  foreignKey: "EnderecoidEndereco",
+});
+db.Utilizador.belongsTo(db.Vizinhanca, {
+  foreignKey: "VizinhançaidVizinhança",
+});
+db.Utilizador.belongsTo(db.estadoUtilizador, {
+  foreignKey: "estadoUtilizadoridEstadoUtilizador",
+});
+db.Utilizador.belongsTo(db.tipoUtilizador, {
+  foreignKey: "tipoUtilizadoridTipoUtilizador",
+});
+
+module.exports = db;

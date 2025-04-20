@@ -11,13 +11,13 @@ const listAddresses = async (req, res) => {
 };
 
 const addAddresses = async (req, res) => {
-    try {
-        const result = await addressService.insertAddress(req.body)
-        res.status(201).json({ message: "Address added successfully", result });
-    } catch (error) {
-        console.error("Error adding address in database:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
+  try {
+    const result = await addressService.insertAddress(req.body);
+    res.status(201).json({ message: "Address added successfully", result });
+  } catch (error) {
+    console.error("Error adding address in database:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const updateAddressController = async (req, res) => {
@@ -25,15 +25,24 @@ const updateAddressController = async (req, res) => {
   const updatedData = req.body;
 
   try {
-    const rowsAffected = await addressService.updateAddress(idEndereco, updatedData);
+    const rowsAffected = await addressService.updateAddress(
+      idEndereco,
+      updatedData
+    );
 
     if (rowsAffected > 0) {
-      res.status(200).json({ message: `Address with id ${idEndereco} updated successfully.` });
+      res
+        .status(200)
+        .json({
+          message: `Address with id ${idEndereco} updated successfully.`,
+        });
     } else {
-      res.status(404).json({ error: `Address with id ${idEndereco} not found.` });
+      res
+        .status(404)
+        .json({ error: `Address with id ${idEndereco} not found.` });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
