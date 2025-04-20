@@ -6,13 +6,13 @@ const getAddress = async () => {
     const result = await pool.request().query("SELECT * FROM [dbo].[Endereco]");
     return result.recordset;
   } catch (error) {
-    console.error("Error getting addresses from database:", error);
-    throw error;
+    console.error("Error getting adresses in database: ", error);
+    res.status(500).json("Internal server error.");
   }
 };
 
 const insertAddress = async (body) => {
-  const { numeroPorta, distrito, freguesia, codigoPostal } = body;
+  const { numeroPorta, distrito, freguesia, codigoPostal, rua } = body;
   try {
     const pool = await poolPromise;
     const result = await pool
@@ -20,32 +20,33 @@ const insertAddress = async (body) => {
       .input("numeroPorta", numeroPorta)
       .input("distrito", distrito)
       .input("freguesia", freguesia)
-      .input("codigoPostal", codigoPostal).query(`
-        INSERT INTO [dbo].[Endereco] (
-            numeroPorta,
-            distrito,
-            freguesia,
-            codigoPostal
-        )
-        VALUES (
-            @numeroPorta,
-            @distrito,
-            @freguesia,
-            @codigoPostal
-        )
-      `);
+      .input("codigoPostal", codigoPostal)
+      .input("rua", rua).query(`      
+                    INSERT INTO [dbo].[Endereco] (
+                        numeroPorta,
+                        distrito,
+                        freguesia,
+                        codigoPostal,
+                        rua
+                    )
+                    VALUES (
+                        @numeroPorta,
+                        @distrito,
+                        @freguesia,
+                        @codigoPostal,
+                        @rua
+                    )
+                `);
 
-<<<<<<< HEAD
-    return result;
+    return result.recordset;
   } catch (error) {
-    console.error("Error adding address to database:", error);
-    throw error;
+    console.error("Error adding adress in database:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const updateAddress = async (idEndereco, body) => {
-  const { numeroPorta, distrito, freguesia, codigoPostal } = body;
-
+  const { numeroPorta, distrito, freguesia, codigoPostal, rua } = body;
   try {
     const pool = await poolPromise;
     const result = await pool
@@ -54,52 +55,23 @@ const updateAddress = async (idEndereco, body) => {
       .input("numeroPorta", numeroPorta)
       .input("distrito", distrito)
       .input("freguesia", freguesia)
-      .input("codigoPostal", codigoPostal).query(`
-        UPDATE [dbo].[Endereco]
-        SET 
-          numeroPorta = @numeroPorta,
-          distrito = @distrito,
-          freguesia = @freguesia,
-          codigoPostal = @codigoPostal
-        WHERE idEndereco = @idEndereco
-      `);
-
-    return result;
-  } catch (error) {
-    console.error("Error updating address in database:", error);
-    throw error;
-  }
-};
-
-module.exports = { getAddress, insertAddress, updateAddress };
-=======
-const updateAddress = async (idEndereco, body) => {
-    const { numeroPorta, distrito, freguesia, codigoPostal } = body;
-    try {
-      const pool = await poolPromise;
-      const result = await pool
-        .request()
-        .input("idEndereco", idEndereco)
-        .input("numeroPorta", numeroPorta)
-        .input("distrito", distrito)
-        .input("freguesia", freguesia)
-        .input("codigoPostal", codigoPostal)
-        .query(`
+      .input("codigoPostal", codigoPostal)
+      .input("rua", rua).query(`
           UPDATE [dbo].[Endereco]
           SET 
             numeroPorta = @numeroPorta,
             distrito = @distrito,
             freguesia = @freguesia,
-            codigoPostal = @codigoPostal
+            codigoPostal = @codigoPostal,
+            rua = @rua
           WHERE idEndereco = @idEndereco
         `);
-  
-        return result.rowsAffected[0];
-    } catch (error) {
-        console.error("Error updating address in database:", error);
-        throw new Error("Internal server error");
-    }
+
+    return result.rowsAffected[0];
+  } catch (error) {
+    console.error("Error updating address in database:", error);
+    throw new Error("Internal server error");
+  }
 };
 
-module.exports = { getAddress, insertAddress, updateAddress }
->>>>>>> 5ea9dc4f99fe89a835af0f68bd18b50be48f0a07
+module.exports = { getAddress, insertAddress, updateAddress };
