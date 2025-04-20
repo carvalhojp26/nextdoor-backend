@@ -17,27 +17,4 @@ const sequelize = new Sequelize(
   }
 );
 
-const db = {};
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.Utilizador = require("../models/userModel")(sequelize, DataTypes);
-db.Endereco = require("../models/addressModel")(sequelize, DataTypes);
-db.Vizinhanca = require("../models/neighborhoodModel")(sequelize, DataTypes);
-db.estadoUtilizador = require("../models/userStateModel")(sequelize, DataTypes);
-db.tipoUtilizador = require("../models/userTypeModel")(sequelize, DataTypes);
-
-db.Utilizador.belongsTo(db.Endereco, {
-  foreignKey: "EnderecoidEndereco",
-});
-db.Utilizador.belongsTo(db.Vizinhanca, {
-  foreignKey: "VizinhançaidVizinhança",
-});
-db.Utilizador.belongsTo(db.estadoUtilizador, {
-  foreignKey: "estadoUtilizadoridEstadoUtilizador",
-});
-db.Utilizador.belongsTo(db.tipoUtilizador, {
-  foreignKey: "tipoUtilizadoridTipoUtilizador",
-});
-
-module.exports = db;
+module.exports = { sequelize, DataTypes };
