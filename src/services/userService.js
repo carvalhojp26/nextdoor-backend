@@ -1,20 +1,24 @@
-const db = require("../config/db");
-const Utilizador = db.Utilizador;
+const {
+  Utilizador,
+  Endereco,
+  Vizinhanca,
+  estadoUtilizador,
+  tipoUtilizador,
+} = require("../models/associations");
 
 const getUsers = async () => {
   try {
-    const users = await db.Utilizador.findAll({
+    const users = await Utilizador.findAll({
       include: [
-        { model: db.Endereco },
-        { model: db.Vizinhanca },
-        { model: db.estadoUtilizador },
-        { model: db.tipoUtilizador },
+        { model: Endereco },
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
       ],
     });
-    //
     return users;
   } catch (error) {
-    console.error("Erro ao buscar utilizadores:", error);
+    console.error("Error getting user in database:", error);
     throw error;
   }
 };

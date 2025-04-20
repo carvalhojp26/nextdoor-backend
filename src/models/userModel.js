@@ -38,23 +38,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Utilizador.associate = (models) => {
-    Utilizador.belongsTo(models.Vizinhanca, {
-      foreignKey: "VizinhancaidVizinhanca",
-    });
-
-    Utilizador.belongsTo(models.Endereco, {
-      foreignKey: "EnderecoidEndereco",
-    });
-
-    Utilizador.belongsTo(models.EstadoUtilizador, {
-      foreignKey: "estadoUtilizadoridEstadoUtilizador",
-    });
-
-    Utilizador.belongsTo(models.TipoUtilizador, {
-      foreignKey: "tipoUtilizadoridTipoUtilizador",
-    });
-  };
-
   return Utilizador;
 };
