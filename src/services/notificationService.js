@@ -1,0 +1,43 @@
+const {
+    Utilizador,
+    criacaoTarefa,
+    Notificacao
+  } = require("../models/associations");
+  
+  const getNotification = async () => {
+    try {
+      const notifications = await Notificacao.findAll({
+        include: [
+          { model: Utilizador },
+          { model: criacaoTarefa },
+        ],
+      });
+      return notifications;
+    } catch (error) {
+      console.error("Error getting notification in database:", error);
+      throw error;
+    }
+  };
+  
+  const insertNotification = async (body) => {
+    try {
+      const notification = await Notificacao.create(body);
+      return notification;
+    } catch (error) {
+      console.error("Error adding notification in database:", error);
+      throw error;
+    }
+  };
+  
+  const deleteNotification = async (idNotificacao) => {
+    try {
+      const deleted = await Notificacao.destroy({ where: { idNotificacao } });
+      return deleted;
+    } catch (error) {
+      console.error("Error deleting notification in database:", error);
+      throw error;
+    }
+  };
+  
+  module.exports = { getNotification, insertNotification, deleteNotification };
+  
