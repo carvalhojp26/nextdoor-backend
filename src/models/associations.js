@@ -6,6 +6,8 @@ const Vizinhanca = require("./neighborhoodModel")(sequelize, DataTypes);
 const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes);
 const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
 const Denuncia = require("../models/complaintModel")(sequelize, DataTypes);
+const Notificacao = require("./notificationModel")(sequelize, DataTypes);
+const criacaoTarefa = require("./createTaskModel")(sequelize, DataTypes);
 
 Utilizador.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco",
@@ -27,6 +29,13 @@ Denuncia.belongsTo(Utilizador, {
   foreignKey: "UtilizadoridUtilizador",
 });
 
+Notificacao.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador",
+});
+
+Notificacao.belongsTo(criacaoTarefa, {
+  foreignKey: "criacaoTarefaidTarefaCriada"
+})
 module.exports = {
   sequelize,
   Utilizador,
@@ -34,5 +43,7 @@ module.exports = {
   Vizinhanca,
   estadoUtilizador,
   tipoUtilizador,
-  Denuncia
+  Denuncia,
+  criacaoTarefa,
+  Notificacao,
 };
