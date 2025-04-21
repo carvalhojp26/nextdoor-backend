@@ -5,6 +5,7 @@ const Endereco = require("./addressModel")(sequelize, DataTypes);
 const Vizinhanca = require("./neighborhoodModel")(sequelize, DataTypes);
 const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes);
 const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
+const Denuncia = require("../models/complaintModel")(sequelize, DataTypes);
 
 Utilizador.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco",
@@ -22,6 +23,10 @@ Utilizador.belongsTo(tipoUtilizador, {
   foreignKey: "tipoUtilizadoridTipoUtilizador",
 });
 
+Denuncia.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador",
+});
+
 module.exports = {
   sequelize,
   Utilizador,
@@ -29,4 +34,5 @@ module.exports = {
   Vizinhanca,
   estadoUtilizador,
   tipoUtilizador,
+  Denuncia
 };

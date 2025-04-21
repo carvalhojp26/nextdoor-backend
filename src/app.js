@@ -11,6 +11,7 @@ const storeRoutes = require("./routes/storeRoutes");
 const tasksRoutes = require("./routes/taskRoutes");
 const addressRoutes = require("./routes/addressRoutes");
 const rateRoutes = require("./routes/rateRoutes");
+const complaintRoutes = require("./routes/complaintRoutes");
 
 app.use(express.json());
 
@@ -20,6 +21,7 @@ app.use("/api/stores", storeRoutes);
 app.use("/api/tasks", tasksRoutes);
 app.use("/api/addresses", addressRoutes);
 app.use("/api/rates", rateRoutes);
+app.use("/api/complaints", complaintRoutes)
 
 try {
   db.sequelize.authenticate();
