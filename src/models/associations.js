@@ -1,10 +1,10 @@
 const { sequelize, DataTypes } = require("../config/db");
 
-const Utilizador = require("./userModel")(sequelize, DataTypes);
+const Utilizador = require("./users/userModel")(sequelize, DataTypes);
 const Endereco = require("./addressModel")(sequelize, DataTypes);
 const Vizinhanca = require("./neighborhoodModel")(sequelize, DataTypes);
-const estadoUtilizador = require("./userStateModel")(sequelize, DataTypes);
-const tipoUtilizador = require("./userTypeModel")(sequelize, DataTypes);
+const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes);
+const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
 
 Utilizador.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco",
