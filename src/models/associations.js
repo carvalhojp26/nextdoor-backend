@@ -16,6 +16,8 @@ const tipoProduto = require("./products/productTypeModel")(sequelize, DataTypes)
 const Produto = require("./products/productModel")(sequelize, DataTypes);
 const resgateCodigo = require("./redemptionCode/redemptionCodeModel")(sequelize, DataTypes);
 const estadoResgate = require("./redemptionCode/redemptionStateModel")(sequelize, DataTypes);
+const realizacaoTarefa = require("./taskRealization/taskRealizationModel")(sequelize, DataTypes);
+const estadoRealizacaoTarefa = require("./taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
 
 //Users associations
 Utilizador.belongsTo(Endereco, {
@@ -87,6 +89,13 @@ Notificacao.belongsTo(Utilizador, {
 Notificacao.belongsTo(criacaoTarefa, {
   foreignKey: "criacaoTarefaidTarefaCriada"
 })
+
+// task realization
+
+realizacaoTarefa.belongsTo(criacaoTarefa, { foreignKey: "criacaoTarefaidTarefaCriada" });
+realizacaoTarefa.belongsTo(Utilizador, { foreignKey: "UtilizadoridUtilizador" });
+realizacaoTarefa.belongsTo(estadoRealizacaoTarefa, { foreignKey: "estadoRealizacaoTarefaidEstadoRealizacaoTarefa" });
+
 module.exports = {
   sequelize,
   Utilizador,
@@ -97,7 +106,6 @@ module.exports = {
   Denuncia,
   criacaoTarefa,
   Notificacao,
-  criacaoTarefa,
   categoriaTarefa,
   estadoCriacaoTarefa,
   Produto,
@@ -105,5 +113,7 @@ module.exports = {
   estadoProduto,
   tipoProduto,
   resgateCodigo,
-  estadoResgate
+  estadoResgate,
+  realizacaoTarefa,
+  estadoRealizacaoTarefa
 };
