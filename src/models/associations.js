@@ -8,9 +8,6 @@ const Endereco = require("./addressModel")(sequelize, DataTypes);
 const Vizinhanca = require("./neighborhoodModel")(sequelize, DataTypes);
 const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes);
 const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
-
-// User
-
 const Estabelecimento = require("./establishmentModel")(sequelize, DataTypes);
 const estadoProduto = require("./products/productState")(sequelize, DataTypes);
 const tipoProduto = require("./products/productTypeModel")(sequelize, DataTypes);
