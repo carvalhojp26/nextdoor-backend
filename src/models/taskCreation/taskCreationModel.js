@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
         dataInicio: {
-          type: DataTypes.DATE,
+          type: DataTypes.DATEONLY,
           allowNull: true,
         },
         dataFim: {
-          type: DataTypes.DATE,
+          type: DataTypes.DATEONLY,
           allowNull: true,
         },
         descricaoTarefa: {
