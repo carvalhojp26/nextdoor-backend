@@ -7,7 +7,7 @@ const {
 
 const getTaskCreation = async () => {
   try {
-    const tasks = await CriacaoTarefa.findAll({
+    const tasks = await criacaoTarefa.findAll({
       include: [
         { model: Utilizador },
         { model: categoriaTarefa },

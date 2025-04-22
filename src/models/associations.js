@@ -8,9 +8,14 @@ const Endereco = require("./addressModel")(sequelize, DataTypes);
 const Vizinhanca = require("./neighborhoodModel")(sequelize, DataTypes);
 const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes);
 const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
+const Estabelecimento = require("./establishmentModel")(sequelize, DataTypes);
+const estadoProduto = require("./products/productState")(sequelize, DataTypes);
+const tipoProduto = require("./products/productTypeModel")(sequelize, DataTypes);
+const Produto = require("./products/productModel")(sequelize, DataTypes);
+const resgateCodigo = require("./redemptionCode/redemptionCodeModel")(sequelize, DataTypes);
+const estadoResgate = require("./redemptionCode/redemptionStateModel")(sequelize, DataTypes);
 
-// User
-
+//Users associations
 Utilizador.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco",
 });
@@ -43,6 +48,32 @@ criacaoTarefa.belongsTo(estadoCriacaoTarefa, {
 });
 
 
+//Products associations
+Produto.belongsTo(Estabelecimento, {
+  foreignKey: "EstabelecimentoidEstabelecimento",
+});
+
+Produto.belongsTo(estadoProduto, {
+  foreignKey: "estadoProdutoidEstadoProduto",
+});
+
+Produto.belongsTo(tipoProduto, {
+  foreignKey: "tipoProdutoidTipoProduto",
+});
+
+//Redemptions associations
+resgateCodigo.belongsTo(Produto, {
+  foreignKey: "ProdutoidProduto"
+});
+
+resgateCodigo.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador"
+});
+
+resgateCodigo.belongsTo(estadoResgate, {
+  foreignKey: "estadoResgateidEstadoResgate"
+});
+
 module.exports = {
   sequelize,
   Utilizador,
@@ -53,4 +84,10 @@ module.exports = {
   criacaoTarefa,
   categoriaTarefa,
   estadoCriacaoTarefa,
+  Produto,
+  Estabelecimento,
+  estadoProduto,
+  tipoProduto,
+  resgateCodigo,
+  estadoResgate
 };
