@@ -7,6 +7,9 @@ const db = require("./models/associations");
 
 const userRoutes = require("./routes/userRoutes");
 const tasksRoutes = require("./routes/taskRoutes");
+const productRoutes = require("./routes/productRoutes");
+const storeRoutes = require("./routes/storeRoutes");
+const tasksCreationRoutes = require("./routes/taskCreationRoutes");
 const addressRoutes = require("./routes/addressRoutes");
 const productRoutes = require("./routes/productRoutes");
 const neighborhoodRoutes = require("./routes/neighborhoodRoutes");
@@ -15,6 +18,9 @@ const redemptionCodeRoutes = require("./routes/redemptionCodeRoutes");
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/stores", storeRoutes);
+app.use("/api/taskCreation", tasksCreationRoutes);
 app.use("/api/tasks", tasksRoutes);
 app.use("/api/addresses", addressRoutes);
 app.use("/api/neighborhoods", neighborhoodRoutes)
