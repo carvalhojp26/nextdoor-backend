@@ -32,7 +32,22 @@ const createTaskCreation = async (data) => {
   }
 };
 
+const deleteTaskCreation = async (idTarefaCriada) => {
+  try {
+    const deleted = await criacaoTarefa.destroy({
+      where: { idTarefaCriada },
+    });
+
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting task creation:", error);
+    throw error;
+  }
+};
+
+
 module.exports = {
   getTaskCreation,
-  createTaskCreation
+  createTaskCreation,
+  deleteTaskCreation
 };

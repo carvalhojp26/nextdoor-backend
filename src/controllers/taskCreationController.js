@@ -58,7 +58,26 @@ const createTaskCreationController = async (req, res) => {
     }
   };
 
+
+  const deleteTaskCreationController = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const deleted = await taskCreationService.deleteTaskCreation(id);
+  
+      if (deleted === 0) {
+        return res.status(404).json({ error: "Task not found" });
+      }
+  
+      res.status(200).json({ message: "Task successfully deleted" });
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      res.status(500).json({ error: "Error deleting task" });
+    }
+  };
+  
 module.exports = {
   getTaskCreationController,
-  createTaskCreationController
+  createTaskCreationController,
+  deleteTaskCreationController
 };
