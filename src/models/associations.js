@@ -10,7 +10,6 @@ const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
 const Denuncia = require("../models/complaintModel")(sequelize, DataTypes);
 const Notificacao = require("./notificationModel")(sequelize, DataTypes);
 const criacaoTarefa = require("./createTaskModel")(sequelize, DataTypes);
-
 const Estabelecimento = require("./establishmentModel")(sequelize, DataTypes);
 const estadoProduto = require("./products/productState")(sequelize, DataTypes);
 const tipoProduto = require("./products/productTypeModel")(sequelize, DataTypes);

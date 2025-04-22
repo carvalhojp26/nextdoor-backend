@@ -1,23 +1,38 @@
 module.exports = (sequelize, DataTypes) => {
   const Endereco = sequelize.define(
-    "Endereco",
-    {
-      idEndereco: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      "Endereco",
+      {
+        idEndereco: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        numeroPorta: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        distrito: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        freguesia: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        codigoPostal: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        rua: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
       },
-      numeroPorta: DataTypes.INTEGER,
-      distrito: DataTypes.STRING,
-      freguesia: DataTypes.STRING,
-      codigoPostal: DataTypes.STRING,
-      rua: DataTypes.STRING,
-    },
-    {
-      tableName: "Endereco",
-      timestamps: false,
-    }
-  );
-
-  return Endereco;
-};
+      {
+        tableName: "Endereco",
+        timestamps: false,
+      }
+    );
+    return Endereco;
+  };
+  

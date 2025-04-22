@@ -1,49 +1,41 @@
 const addressService = require("../services/addressService");
 
-const listAddresses = async (req, res) => {
+const listAddress = async (req, res) => {
   try {
     const result = await addressService.getAddress();
-    res.json(result);
+    res.status(200).json({ message: "Adressess fetched successfully", address: result  });
   } catch (error) {
-    console.error("Error getting adresses in database: ", error);
-    res.status(500).json("Internal server error.");
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
-const addAddresses = async (req, res) => {
+const addAddress = async (req, res) => {
   try {
     const result = await addressService.insertAddress(req.body);
-    res.status(201).json({ message: "Address added successfully", result });
+    res.status(201).json({ message: "Address added successfully", address: result  });
   } catch (error) {
-    console.error("Error adding address in database:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-const updateAddressController = async (req, res) => {
-  const { idEndereco } = req.params;
-  const updatedData = req.body;
-
+const editAddress = async (req, res) => {
   try {
-    const rowsAffected = await addressService.updateAddress(
-      idEndereco,
-      updatedData
-    );
-
-    if (rowsAffected > 0) {
-      res
-        .status(200)
-        .json({
-          message: `Address with id ${idEndereco} updated successfully.`,
-        });
-    } else {
-      res
-        .status(404)
-        .json({ error: `Address with id ${idEndereco} not found.` });
-    }
+    const { addressId } = req.params;
+    const result = await addressService.updateAddress(addressId, req.body);
+    res.status(200).json({ message: "Address updated successfully", address: result });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { listAddresses, addAddresses, updateAddressController };
+
+const deleteAddressController = async (req, res) => {
+  const { addressId } = req.params;
+  try {
+    const result = await addressService.deleteAddress(addressId);
+    res.status(200).json({message: "Address deleted successfully", address: result,});
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { listAddress, addAddress, editAddress, deleteAddressController };
