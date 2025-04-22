@@ -32,6 +32,20 @@ const createTaskCreation = async (data) => {
   }
 };
 
+const updateTaskCreation = async (idTarefaCriada, updateFields) => {
+  try {
+    const [updatedRows] = await criacaoTarefa.update(updateFields, {
+      where: { idTarefaCriada },
+    });
+
+    return updatedRows;
+  } catch (error) {
+    console.error("Error updating task creation:", error);
+    throw error;
+  }
+};
+
+
 const deleteTaskCreation = async (idTarefaCriada) => {
   try {
     const deleted = await criacaoTarefa.destroy({
@@ -49,5 +63,6 @@ const deleteTaskCreation = async (idTarefaCriada) => {
 module.exports = {
   getTaskCreation,
   createTaskCreation,
-  deleteTaskCreation
+  deleteTaskCreation,
+  updateTaskCreation
 };

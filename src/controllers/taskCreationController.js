@@ -58,6 +58,36 @@ const createTaskCreationController = async (req, res) => {
     }
   };
 
+  const updateTaskCreationController = async (req, res) => {
+    const { id } = req.params;
+    const updateFields = req.body;
+  
+    try {
+      if (updateFields.dataInicio && updateFields.dataFim) {
+        const startDate = new Date(updateFields.dataInicio);
+        const endDate = new Date(updateFields.dataFim);
+  
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+          return res.status(400).json({ error: "Invalid date format." });
+        }
+  
+        if (startDate > endDate) {
+          return res.status(400).json({ error: "Start date must be before or equal to end date." });
+        }
+      }
+  
+      const updated = await taskCreationService.updateTaskCreation(id, updateFields);
+  
+      if (updated === 0) {
+        return res.status(404).json({ error: "Task not found or no changes made." });
+      }
+  
+      res.status(200).json({ message: "Task successfully updated" });
+    } catch (error) {
+      console.error("Error updating task:", error);
+      res.status(500).json({ error: "Error updating task" });
+    }
+  };  
 
   const deleteTaskCreationController = async (req, res) => {
     const { id } = req.params;
@@ -79,5 +109,6 @@ const createTaskCreationController = async (req, res) => {
 module.exports = {
   getTaskCreationController,
   createTaskCreationController,
+  updateTaskCreationController,
   deleteTaskCreationController
 };
