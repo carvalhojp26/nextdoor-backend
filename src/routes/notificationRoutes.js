@@ -5,6 +5,6 @@ const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 
 router.get('/', sqlInjectionGuard, listNotifications);
 router.post('/', sqlInjectionGuard, addNotification);
-router.delete('/:idNotificacao', sqlInjectionGuard, deleteNotificationController);
+router.delete('/:notificationId', sqlInjectionGuard, deleteNotificationController);
 
 module.exports = router;

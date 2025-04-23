@@ -52,4 +52,14 @@ const updateProduct = async (productId, body) => {
   }
 };
 
-module.exports = { getProducts, insertProduct, updateProduct };
+const deleteProduct = async (productId) => {
+  try {
+    const deleted = await Produto.destroy({ where: { idProduto: productId } });
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting product in database:", error);
+    throw error;
+  }
+};
+
+module.exports = { getProducts, insertProduct, updateProduct, deleteProduct };

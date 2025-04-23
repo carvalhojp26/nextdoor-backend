@@ -5,7 +5,6 @@ const listProducts = async (req, res) => {
         const result = await productService.getProducts();
         res.status(200).json({ message: "Products fetched successfully", product: result  });
     } catch (error) {
-        console.error("Error getting products from database: ", error);
         res.status(500).json("Internal server error");
     };
 };
@@ -29,4 +28,14 @@ const listProducts = async (req, res) => {
       }
     };
 
-module.exports = { listProducts, addProduct, editProduct };
+  const deleteProductController = async (req, res) => {
+      const { productId } = req.params;
+      try {
+        const result = await productService.deleteProduct(productId);
+        res.status(200).json({message: "Product deleted successfully", user: result,});
+      } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    };
+
+module.exports = { listProducts, addProduct, editProduct, deleteProductController };

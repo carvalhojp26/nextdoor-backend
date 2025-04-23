@@ -29,9 +29,9 @@ const {
     }
   };
   
-  const deleteNotification = async (idNotificacao) => {
+  const deleteNotification = async (notificationId) => {
     try {
-      const deleted = await Notificacao.destroy({ where: { idNotificacao } });
+      const deleted = await Notificacao.destroy({ where: { idNotificacao: notificationId } });
       return deleted;
     } catch (error) {
       console.error("Error deleting notification in database:", error);
