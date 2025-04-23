@@ -32,6 +32,19 @@ const createTaskRealization = async (data) => {
     }
   };
 
+const deleteTaskRealization = async (idRealizacaoTarefa) => {
+    try {
+        const deleted = await realizacaoTarefa.destroy({
+            where: { idRealizacaoTarefa }
+        });
+
+        return deleted
+    } catch (error) {
+        console.error("Error deleting task realization: ", error);
+        throw error;
+    }
+}
+
 module.exports = {
-    getTaskRealization, createTaskRealization
+    getTaskRealization, createTaskRealization, deleteTaskRealization
 }
