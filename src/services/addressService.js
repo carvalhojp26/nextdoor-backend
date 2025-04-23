@@ -20,14 +20,14 @@ const { Endereco } = require("../models/associations");
     }
   };
   
-  const updateAddress = async (adressId, body) => {
+  const updateAddress = async (addressId, body) => {
     try {
       const [updatedRows] = await Endereco.update(body, {
-        where: { idEndereco: adressId },
+        where: { idEndereco: addressId },
       });
   
       if (updatedRows === 0) {
-        throw new Error(`User with Id ${adressId} not found.`);
+        throw new Error(`User with Id ${addressId} not found.`);
       }
   
       const updatedAddress = await Endereco.findOne({

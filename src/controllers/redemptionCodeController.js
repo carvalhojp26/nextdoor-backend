@@ -5,7 +5,6 @@ const listRedemptionCodes = async (req, res) => {
         const result = await redemptionCodeService.getRedemptionCodes();
         res.status(200).json({ message: "Redemption codes fetched successfully", redemptionCodes: result  });
     } catch (error) {
-        console.error("Error getting redemption codes from database: ", error);
         res.status(500).json("Internal server error");
     };
 };
