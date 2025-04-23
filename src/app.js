@@ -25,7 +25,7 @@ app.use("/api/complaints", complaintRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/neighborhoods", neighborhoodRoutes)
 app.use("/api/products", productRoutes);
-app.use("/api/redemptionCodes", redemptionCodeRoutes)
+app.use("/api/redemptionCodes", redemptionCodeRoutes);
 app.use("/api/taskRealization", taskRealization);
 
 try {

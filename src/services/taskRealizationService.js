@@ -22,6 +22,16 @@ const getTaskRealization = async () => {
     }
 }
 
+const createTaskRealization = async (data) => {
+    try {
+      const newTask = await realizacaoTarefa.create(data);
+      return newTask;
+    } catch (error) {
+      console.error("Error creating task realization:", error);
+      throw error;
+    }
+  };
+
 module.exports = {
-    getTaskRealization
+    getTaskRealization, createTaskRealization
 }
