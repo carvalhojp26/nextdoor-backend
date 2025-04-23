@@ -9,13 +9,15 @@ const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes)
 const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
 const Denuncia = require("../models/complaintModel")(sequelize, DataTypes);
 const Notificacao = require("./notificationModel")(sequelize, DataTypes);
-const criacaoTarefa = require("./createTaskModel")(sequelize, DataTypes);
+const criacaoTarefa = require("./taskCreation/taskCreationModel")(sequelize, DataTypes);
 const Estabelecimento = require("./establishmentModel")(sequelize, DataTypes);
 const estadoProduto = require("./products/productState")(sequelize, DataTypes);
 const tipoProduto = require("./products/productTypeModel")(sequelize, DataTypes);
 const Produto = require("./products/productModel")(sequelize, DataTypes);
 const resgateCodigo = require("./redemptionCode/redemptionCodeModel")(sequelize, DataTypes);
 const estadoResgate = require("./redemptionCode/redemptionStateModel")(sequelize, DataTypes);
+const realizacaoTarefa = require("./taskRealization/taskRealizationModel")(sequelize, DataTypes);
+const estadoRealizacaoTarefa = require("./taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
 
 //Users associations
 Utilizador.belongsTo(Endereco, {
@@ -87,6 +89,13 @@ Notificacao.belongsTo(Utilizador, {
 Notificacao.belongsTo(criacaoTarefa, {
   foreignKey: "criacaoTarefaidTarefaCriada"
 })
+
+// task realization
+
+realizacaoTarefa.belongsTo(criacaoTarefa, { foreignKey: "criacaoTarefaidTarefaCriada" });
+realizacaoTarefa.belongsTo(Utilizador, { foreignKey: "UtilizadoridUtilizador" });
+realizacaoTarefa.belongsTo(estadoRealizacaoTarefa, { foreignKey: "estadoRealizacaoTarefaidEstadoRealizacaoTarefa" });
+
 module.exports = {
   sequelize,
   Utilizador,
@@ -97,7 +106,6 @@ module.exports = {
   Denuncia,
   criacaoTarefa,
   Notificacao,
-  criacaoTarefa,
   categoriaTarefa,
   estadoCriacaoTarefa,
   Produto,
@@ -105,5 +113,7 @@ module.exports = {
   estadoProduto,
   tipoProduto,
   resgateCodigo,
-  estadoResgate
+  estadoResgate,
+  realizacaoTarefa,
+  estadoRealizacaoTarefa
 };
