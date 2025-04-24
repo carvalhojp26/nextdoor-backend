@@ -1,23 +1,23 @@
-const { sequelize, DataTypes } = require("../config/db");
+const { sequelize, DataTypes } = require("../../config/db");
 
-const Utilizador = require("./users/userModel")(sequelize, DataTypes);
-const categoriaTarefa = require("./taskCreation/taskCreationCategoryModel")(sequelize, DataTypes);
-const estadoCriacaoTarefa = require("./taskCreation/taskCreationStateModel")(sequelize, DataTypes);
-const Endereco = require("./addressModel")(sequelize, DataTypes);
-const Vizinhanca = require("./neighborhoodModel")(sequelize, DataTypes);
-const estadoUtilizador = require("./users/userStateModel")(sequelize, DataTypes);
-const tipoUtilizador = require("./users/userTypeModel")(sequelize, DataTypes);
-const Denuncia = require("../models/complaintModel")(sequelize, DataTypes);
-const Notificacao = require("./notificationModel")(sequelize, DataTypes);
-const criacaoTarefa = require("./taskCreation/taskCreationModel")(sequelize, DataTypes);
-const Estabelecimento = require("./establishmentModel")(sequelize, DataTypes);
-const estadoProduto = require("./products/productState")(sequelize, DataTypes);
-const tipoProduto = require("./products/productTypeModel")(sequelize, DataTypes);
-const Produto = require("./products/productModel")(sequelize, DataTypes);
-const resgateCodigo = require("./redemptionCode/redemptionCodeModel")(sequelize, DataTypes);
-const estadoResgate = require("./redemptionCode/redemptionStateModel")(sequelize, DataTypes);
-const realizacaoTarefa = require("./taskRealization/taskRealizationModel")(sequelize, DataTypes);
-const estadoRealizacaoTarefa = require("./taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
+const Utilizador = require("../user/userModel")(sequelize, DataTypes);
+const categoriaTarefa = require("../taskCreation/taskCreationCategoryModel")(sequelize, DataTypes);
+const estadoCriacaoTarefa = require("../taskCreation/taskCreationStateModel")(sequelize, DataTypes);
+const Endereco = require("../address/addressModel")(sequelize, DataTypes);
+const Vizinhanca = require("../neighborhood/neighborhoodModel")(sequelize, DataTypes);
+const estadoUtilizador = require("../user/userStateModel")(sequelize, DataTypes);
+const tipoUtilizador = require("../user/userTypeModel")(sequelize, DataTypes);
+const Denuncia = require("../complaint/complaintModel")(sequelize, DataTypes);
+const Notificacao = require("../notification/notificationModel")(sequelize, DataTypes);
+const criacaoTarefa = require("../taskCreation/taskCreationModel")(sequelize, DataTypes);
+const Estabelecimento = require("../establishment/establishmentModel")(sequelize, DataTypes);
+const estadoProduto = require("../products/productState")(sequelize, DataTypes);
+const tipoProduto = require("../products/productTypeModel")(sequelize, DataTypes);
+const Produto = require("../products/productModel")(sequelize, DataTypes);
+const resgateCodigo = require("../redemptionCode/redemptionCodeModel")(sequelize, DataTypes);
+const estadoResgate = require("../redemptionCode/redemptionStateModel")(sequelize, DataTypes);
+const realizacaoTarefa = require("../taskRealization/taskRealizationModel")(sequelize, DataTypes);
+const estadoRealizacaoTarefa = require("../taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
 
 //Users associations
 Utilizador.belongsTo(Endereco, {

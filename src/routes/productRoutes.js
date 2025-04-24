@@ -10,4 +10,5 @@ router.get('/', sqlInjectionGuard, productController.getProductController);
 router.post('/', sqlInjectionGuard, productController.createProductController);
 router.patch('/:productId', sqlInjectionGuard, productController.updateProductController);
 router.delete("/:productId", sqlInjectionGuard, productController.deleteProductController);
+
 module.exports = router;

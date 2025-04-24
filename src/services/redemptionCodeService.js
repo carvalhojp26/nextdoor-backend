@@ -1,4 +1,4 @@
-const { resgateCodigo, Produto, Utilizador, estadoResgate} = require("../models/associations");
+const { resgateCodigo, Produto, Utilizador, estadoResgate} = require("../models/association/associations");
 
 const getRedemptionCode = async () => {
   try {

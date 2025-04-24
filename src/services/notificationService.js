@@ -2,7 +2,7 @@ const {
     Utilizador,
     criacaoTarefa,
     Notificacao
-  } = require("../models/associations");
+  } = require("../models/association/associations");
   
   const getNotification = async () => {
     try {

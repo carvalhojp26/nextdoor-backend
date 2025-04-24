@@ -1,7 +1,7 @@
 const {
     Utilizador,
     Denuncia
-  } = require("../models/associations");
+  } = require("../models/association/associations");
   
 
 const getComplaint = async () => {

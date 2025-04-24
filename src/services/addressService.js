@@ -1,4 +1,4 @@
-const { Endereco } = require("../models/associations");
+const { Endereco } = require("../models/association/associations");
   
   const getAddress = async () => {
     try {

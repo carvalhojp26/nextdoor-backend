@@ -1,4 +1,4 @@
-const { Produto, Estabelecimento, estadoProduto, tipoProduto} = require("../models/associations");
+const { Produto, Estabelecimento, estadoProduto, tipoProduto} = require("../models/association/associations");
 
 const getProductById = async (productId) => {
   try {

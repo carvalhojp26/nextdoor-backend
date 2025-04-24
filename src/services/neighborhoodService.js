@@ -1,4 +1,4 @@
-const { Vizinhanca } = require("../models/associations");
+const { Vizinhanca } = require("../models/association/associations");
 
 const getNeighborhood = async () => {
   try {

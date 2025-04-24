@@ -3,7 +3,7 @@ const {
   Utilizador,
   categoriaTarefa,
   estadoCriacaoTarefa
-} = require("../models/associations");
+} = require("../models/association/associations");
 
 const getTaskCreationById = async (id) => {
   try {

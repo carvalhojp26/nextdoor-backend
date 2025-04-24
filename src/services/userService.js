@@ -4,7 +4,7 @@ const {
   Vizinhanca,
   estadoUtilizador,
   tipoUtilizador,
-} = require("../models/associations");
+} = require("../models/association/associations");
 
 const getUserById = async (userId) => {
   try {
@@ -47,7 +47,6 @@ const getUserByNeighborhood = async (neighborhoodId) => {
 const getUser = async () => {
   try {
     const users = await Utilizador.findAll({
-      attributes: { exclude: ['password'] },
       include: [
         { model: Endereco },
         { model: Vizinhanca },
@@ -62,14 +61,13 @@ const getUser = async () => {
   }
 };
 
-const createUser = async (body) => {
-  try {
-    const user = await Utilizador.create(body);
-    return user;
-  } catch (error) {
-    console.error("Error adding user in database:", error);
-    throw error;
-  }
+const registerUser = async (body) => {
+  	try {
+		const user = await Utilizador.create(body);
+		return user;
+	} catch (error) {
+		console.error("Error adding user in database: ", error);
+	};
 };
 
 const updateUser = async (userId, body) => {
@@ -94,4 +92,4 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { getUser, getUserById, getUserByNeighborhood, createUser, updateUser, deleteUser };
+module.exports = { getUser, getUserById, getUserByNeighborhood, registerUser, updateUser, deleteUser };
