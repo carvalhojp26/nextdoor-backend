@@ -1,5 +1,6 @@
 const userService = require("../services/userService");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const listUsers = async (req, res) => {
   try {
@@ -33,6 +34,45 @@ const registerUserController = async (req, res) => {
 	}
 }
 
+const loginUserController = async (req, res) => {
+	const { emailUtilizador, password } = req.body;
+
+	try {
+		const allUsers = await userService.getUsers();
+		const user = allUsers.find(u => u.emailUtilizador === emailUtilizador);
+
+		if (!user) {
+			return res.status(401).json({ error: "Invalid Email" });
+		};
+		
+		const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+		if (!isPasswordCorrect) {
+			return res.status(401).json({ error: "Wrong Password" });
+		}
+
+		const token = jwt.sign(
+			{ idUtilizador: user.idUtilizador, emailUtilizador: user.emailUtilizador },
+			process.env.SECRET_KEY,
+			{ expiresIn: '1h' }
+		)
+
+		res.status(200).json({
+			message: "Logged in successfully",
+			token: token,
+			user: {
+				id: user.idUtilizador,
+				nome: user.nomeUtilizador,
+				email: user.emailUtilizador
+			}
+		})
+
+	} catch (error) {
+		console.error("Error logging in: ", user);
+		res.status(500).json({ error: "Internal server error" });
+	}
+}
+
 const editUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -53,4 +93,4 @@ const deleteUserController = async (req, res) => {
   }
 };
 
-module.exports = { listUsers, editUser, deleteUserController, registerUserController };
+module.exports = { listUsers, editUser, deleteUserController, registerUserController, loginUserController };
