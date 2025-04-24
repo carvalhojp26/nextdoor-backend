@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         dataInicio: {
           type: DataTypes.DATEONLY,
-          allowNull: true,
+          allowNull: false,
         },
         dataFim: {
           type: DataTypes.DATEONLY,
-          allowNull: true,
+          allowNull: false,
         },
         descricaoTarefa: {
           type: DataTypes.STRING,

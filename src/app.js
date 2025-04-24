@@ -13,6 +13,7 @@ const complaintRoutes = require("./routes/complaintRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const neighborhoodRoutes = require("./routes/neighborhoodRoutes");
 const redemptionCodeRoutes = require("./routes/redemptionCodeRoutes");
+const taskRealization = require("./routes/taskRealizationRoutes");
 
 app.use(express.json());
 
@@ -24,7 +25,8 @@ app.use("/api/complaints", complaintRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/neighborhoods", neighborhoodRoutes)
 app.use("/api/products", productRoutes);
-app.use("/api/redemptionCodes", redemptionCodeRoutes)
+app.use("/api/redemptionCodes", redemptionCodeRoutes);
+app.use("/api/taskRealization", taskRealization);
 
 try {
   db.sequelize.authenticate();
