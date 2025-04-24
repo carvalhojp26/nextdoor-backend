@@ -10,7 +10,7 @@ const { Endereco } = require("../models/associations");
     }
   };
   
-  const insertAddress = async (body) => {
+  const createAddress = async (body) => {
     try {
       const address = await Endereco.create(body);
       return address;
@@ -25,16 +25,7 @@ const { Endereco } = require("../models/associations");
       const [updatedRows] = await Endereco.update(body, {
         where: { idEndereco: addressId },
       });
-  
-      if (updatedRows === 0) {
-        throw new Error(`User with Id ${addressId} not found.`);
-      }
-  
-      const updatedAddress = await Endereco.findOne({
-        where: { idEndereco: addressId },
-      });
-  
-      return updatedAddress;
+      return updatedRows;
     } catch (error) {
       console.error("Error updating address in database:", error);
       throw error;
@@ -51,5 +42,5 @@ const { Endereco } = require("../models/associations");
     }
   };
   
-  module.exports = { getAddress, insertAddress, updateAddress, deleteAddress};
+  module.exports = { getAddress, createAddress, updateAddress, deleteAddress};
   

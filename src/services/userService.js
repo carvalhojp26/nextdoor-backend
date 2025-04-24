@@ -6,12 +6,51 @@ const {
   tipoUtilizador,
 } = require("../models/associations");
 
-const getUsers = async () => {
+const getUserById = async (userId) => {
   try {
-    const users = await Utilizador.findAll({
+    const user = await Utilizador.findOne({
+      where: { idUtilizador: userId },
       include: [
         { model: Endereco },
-        { model: Vizinhanca },  //Estamos a pedir ao sequilize para fazer inners joins no sql e retornar os dados
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
+      ],
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error getting user by ID from database:", error);
+    throw error;
+  }
+};
+
+const getUserByNeighborhood = async (neighborhoodId) => {
+  try {
+    const user = await Utilizador.findAll({
+      where: { VizinhançaidVizinhança: neighborhoodId },
+      include: [
+        { model: Endereco },
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
+      ],
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error getting user by neighborhood from database:", error);
+    throw error;
+  }
+};
+
+const getUser = async () => {
+  try {
+    const users = await Utilizador.findAll({
+      attributes: { exclude: ['password'] },
+      include: [
+        { model: Endereco },
+        { model: Vizinhanca },
         { model: estadoUtilizador },
         { model: tipoUtilizador },
       ],
@@ -23,7 +62,7 @@ const getUsers = async () => {
   }
 };
 
-const insertUser = async (body) => {
+const createUser = async (body) => {
   try {
     const user = await Utilizador.create(body);
     return user;
@@ -38,22 +77,7 @@ const updateUser = async (userId, body) => {
     const [updatedRows] = await Utilizador.update(body, {
       where: { idUtilizador: userId },
     });
-
-    if (updatedRows === 0) {
-      throw new Error(`User with Id ${userId} not found.`);
-    }
-
-    const updatedUser = await Utilizador.findOne({
-      where: { idUtilizador: userId },
-      include: [
-        { model: Endereco },
-        { model: Vizinhanca },
-        { model: estadoUtilizador },
-        { model: tipoUtilizador },
-      ],
-    });
-
-    return updatedUser;
+    return updatedRows;
   } catch (error) {
     console.error("Error updating user in database:", error);
     throw error;
@@ -70,4 +94,4 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { getUsers, insertUser, deleteUser, updateUser };
+module.exports = { getUser, getUserById, getUserByNeighborhood, createUser, updateUser, deleteUser };

@@ -1,6 +1,6 @@
 const complaintService = require("../services/complaintService");
 
-const listComplaints = async (req, res) => {
+const getComplaintController = async (req, res) => {
   try {
     const result = await complaintService.getComplaint();
     res.status(200).json({ message: "Complaint fetched successfully", complaints: result });
@@ -9,9 +9,9 @@ const listComplaints = async (req, res) => {
   }
 };
 
-const addComplaint = async (req, res) => {
+const createComplaintController = async (req, res) => {
   try {
-    const result = await complaintService.insertComplaint(req.body);
+    const result = await complaintService.createComplaint(req.body);
     res.status(201).json({ message: "Complaint added successfully", complaints: result });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -28,4 +28,4 @@ const deleteComplaintController = async (req, res) => {
   }
 };
 
-module.exports = { listComplaints, addComplaint, deleteComplaintController};
+module.exports = { getComplaintController, createComplaintController, deleteComplaintController};

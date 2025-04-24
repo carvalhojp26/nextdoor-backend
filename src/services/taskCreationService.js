@@ -5,6 +5,60 @@ const {
   estadoCriacaoTarefa
 } = require("../models/associations");
 
+const getTaskCreationById = async (id) => {
+  try {
+    const task = await criacaoTarefa.findOne({
+      where: { idTarefaCriada: id },
+      include: [
+        { model: Utilizador },
+        { model: categoriaTarefa },
+        { model: estadoCriacaoTarefa }
+      ],
+    });
+    
+    return task;
+  } catch (error) {
+    console.error("Error fetching task by ID from database:", error);
+    throw error;
+  }
+};
+
+const getTaskCreationByCategory = async (categoryId) => {
+  try {
+    const task = await criacaoTarefa.findAll({
+      where: { categoriaTarefaidCategoriaTarefa: categoryId },
+      include: [
+        { model: Utilizador },
+        { model: categoriaTarefa },
+        { model: estadoCriacaoTarefa }
+      ],
+    });
+
+    return task;
+  } catch (error) {
+    console.error("Error fetching task by category from database:", error);
+    throw error;
+  }
+};
+
+const getTaskCreationByUser = async (userId) => {
+  try {
+    const task = await criacaoTarefa.findAll({
+      where: { UtilizadoridUtilizador: userId },
+      include: [
+        { model: Utilizador },
+        { model: categoriaTarefa },
+        { model: estadoCriacaoTarefa }
+      ],
+    });
+
+    return task;
+  } catch (error) {
+    console.error("Error fetching task by user from database:", error);
+    throw error;
+  }
+};
+
 const getTaskCreation = async () => {
   try {
     const tasks = await criacaoTarefa.findAll({
@@ -35,9 +89,8 @@ const createTaskCreation = async (data) => {
 const updateTaskCreation = async (idTarefaCriada, updateFields) => {
   try {
     const [updatedRows] = await criacaoTarefa.update(updateFields, {
-      where: { idTarefaCriada },
+      where: { idTarefaCriada: idTarefaCriada },
     });
-
     return updatedRows;
   } catch (error) {
     console.error("Error updating task creation:", error);
@@ -61,6 +114,9 @@ const deleteTaskCreation = async (idTarefaCriada) => {
 
 
 module.exports = {
+  getTaskCreationByUser,
+  getTaskCreationByCategory,
+  getTaskCreationById,
   getTaskCreation,
   createTaskCreation,
   deleteTaskCreation,

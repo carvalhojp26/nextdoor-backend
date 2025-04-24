@@ -1,6 +1,6 @@
 const neighborhoodService = require("../services/neighborhoodService")
 
-const listNeighborhoods = async (req, res) => {
+const getNeighborhoodController = async (req, res) => {
   try {
     const result = await neighborhoodService.getNeighborhood();
     res.status(200).json({ message: "Neighborhoods fetched successfully", neighborhood: result  });
@@ -9,13 +9,13 @@ const listNeighborhoods = async (req, res) => {
   }
 };
 
-const addNeighborhoods = async (req, res) => {
+const createNeighborhoodController = async (req, res) => {
   try {
-    const result = await neighborhoodService.insertNeighborhood(req.body);
+    const result = await neighborhoodService.createNeighborhood(req.body);
     res.status(201).json({ message: "Neighborhoods added successfully", neighborhood: result  });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-module.exports = {listNeighborhoods, addNeighborhoods}
+module.exports = {getNeighborhoodController, createNeighborhoodController}

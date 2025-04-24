@@ -1,21 +1,21 @@
 const redemptionCodeService = require("../services/redemptionCodeService")
 
-const listRedemptionCodes = async (req, res) => {
+const getRedemptionCodeController = async (req, res) => {
     try {
-        const result = await redemptionCodeService.getRedemptionCodes();
+        const result = await redemptionCodeService.getRedemptionCode();
         res.status(200).json({ message: "Redemption codes fetched successfully", redemptionCodes: result  });
     } catch (error) {
         res.status(500).json("Internal server error");
     };
 };
 
-  const addRedemptionCodes = async (req, res) => {
+  const createRedemptionCodeController = async (req, res) => {
     try {
-      const result = await redemptionCodeService.insertRedemptionCode(req.body);
+      const result = await redemptionCodeService.createRedemptionCode(req.body);
       res.status(201).json({ message: "Redemption code added successfully", redemptionCodes: result  });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
   };
 
-module.exports = { listRedemptionCodes, addRedemptionCodes };
+module.exports = { getRedemptionCodeController, createRedemptionCodeController };

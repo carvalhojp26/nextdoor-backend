@@ -11,7 +11,7 @@ const getNeighborhood = async () => {
   }
 };
 
-const insertNeighborhood = async (body) => {
+const createNeighborhood = async (body) => {
   try {
     const neighborhood = await Vizinhanca.create(body);
     return neighborhood;
@@ -21,4 +21,4 @@ const insertNeighborhood = async (body) => {
   }
 };
 
-module.exports = {getNeighborhood, insertNeighborhood}
+module.exports = {getNeighborhood, createNeighborhood}

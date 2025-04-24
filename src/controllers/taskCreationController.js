@@ -1,9 +1,39 @@
 const taskCreationService = require("../services/taskCreationService");
 
+const getTaskCreationByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await taskCreationService.getTaskCreationById(id);
+    res.status(200).json({ message: "Task fetched successfully", task: task });
+  } catch (error) {
+    res.status(500).json({ error: "Task not found" });
+  }
+};
+
+const getTaskCreationByCategoryController = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const task = await taskCreationService.getTaskCreationByCategory(categoryId);
+    res.status(200).json({ message: "Task fetched successfully", task: task });
+  } catch (error) {
+    res.status(500).json({ error: "Task not found" });
+  }
+};
+
+const getTaskCreationByUserController = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const task = await taskCreationService.getTaskCreationByUser(userId);
+    res.status(200).json({ message: "Task fetched successfully", task: task });
+  } catch (error) {
+    res.status(500).json({ error: "Task not found" });
+  }
+};
+
 const getTaskCreationController = async (req, res) => {
   try {
     const tasks = await taskCreationService.getTaskCreation();
-    res.status(200).json(tasks);
+    res.status(200).json({ message: "Tasks fetched successfully", task: tasks });
   } catch (error) {
     res.status(500).json({ error: "Error getting taskCreation" });
   }
@@ -82,7 +112,7 @@ const createTaskCreationController = async (req, res) => {
         return res.status(404).json({ error: "Task not found or no changes made." });
       }
   
-      res.status(200).json({ message: "Task successfully updated" });
+      res.status(200).json({ message: "Task successfully updated"});
     } catch (error) {
       console.error("Error updating task:", error);
       res.status(500).json({ error: "Error updating task" });
@@ -107,6 +137,9 @@ const createTaskCreationController = async (req, res) => {
   };
   
 module.exports = {
+  getTaskCreationByUserController,
+  getTaskCreationByCategoryController,
+  getTaskCreationByIdController,
   getTaskCreationController,
   createTaskCreationController,
   updateTaskCreationController,
