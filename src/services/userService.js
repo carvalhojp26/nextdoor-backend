@@ -23,16 +23,6 @@ const getUsers = async () => {
   }
 };
 
-//const insertUser = async (body) => {
-//  try {
-//    const user = await Utilizador.create(body);
-//    return user;
-//  } catch (error) {
-//    console.error("Error adding user in database:", error);
-//    throw error;
-//  }
-//};
-
 const registerUser = async (body) => {
   	try {
 		const user = await Utilizador.create(body);

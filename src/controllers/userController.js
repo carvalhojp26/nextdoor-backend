@@ -11,15 +11,6 @@ const listUsers = async (req, res) => {
   }
 };
 
-  //const addUser = async (req, res) => {
-  //  try {
-  //    const result = await userService.insertUser(req.body);
-  //    res.status(201).json({ message: "User added successfully", user: result  });
-  //  } catch (error) {
-  //    res.status(500).json({ error: "Internal server error" });
-  //  }
-  //};
-
 const registerUserController = async (req, res) => {
 	const { password, ...otherFields } = req.body;
 	const hashedPassword = await bcrypt.hash(password, 10);
