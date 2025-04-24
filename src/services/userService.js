@@ -23,14 +23,23 @@ const getUsers = async () => {
   }
 };
 
-const insertUser = async (body) => {
-  try {
-    const user = await Utilizador.create(body);
-    return user;
-  } catch (error) {
-    console.error("Error adding user in database:", error);
-    throw error;
-  }
+//const insertUser = async (body) => {
+//  try {
+//    const user = await Utilizador.create(body);
+//    return user;
+//  } catch (error) {
+//    console.error("Error adding user in database:", error);
+//    throw error;
+//  }
+//};
+
+const registerUser = async (body) => {
+  	try {
+		const user = await Utilizador.create(body);
+		return user;
+	} catch (error) {
+		console.error("Error adding user in database: ", error);
+	};
 };
 
 const updateUser = async (userId, body) => {
@@ -70,4 +79,4 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { getUsers, insertUser, deleteUser, updateUser };
+module.exports = { getUsers, deleteUser, updateUser, registerUser };
