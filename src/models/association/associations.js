@@ -1,0 +1,131 @@
+const { sequelize, DataTypes } = require("../../config/db");
+
+const Utilizador = require("../user/userModel")(sequelize, DataTypes);
+const categoriaTarefa = require("../taskCreation/taskCreationCategoryModel")(sequelize, DataTypes);
+const estadoCriacaoTarefa = require("../taskCreation/taskCreationStateModel")(sequelize, DataTypes);
+const Endereco = require("../address/addressModel")(sequelize, DataTypes);
+const Vizinhanca = require("../neighborhood/neighborhoodModel")(sequelize, DataTypes);
+const estadoUtilizador = require("../user/userStateModel")(sequelize, DataTypes);
+const tipoUtilizador = require("../user/userTypeModel")(sequelize, DataTypes);
+const Denuncia = require("../complaint/complaintModel")(sequelize, DataTypes);
+const Notificacao = require("../notification/notificationModel")(sequelize, DataTypes);
+const criacaoTarefa = require("../taskCreation/taskCreationModel")(sequelize, DataTypes);
+const Estabelecimento = require("../establishment/establishmentModel")(sequelize, DataTypes);
+const estadoProduto = require("../products/productState")(sequelize, DataTypes);
+const tipoProduto = require("../products/productTypeModel")(sequelize, DataTypes);
+const Produto = require("../products/productModel")(sequelize, DataTypes);
+const resgateCodigo = require("../redemptionCode/redemptionCodeModel")(sequelize, DataTypes);
+const estadoResgate = require("../redemptionCode/redemptionStateModel")(sequelize, DataTypes);
+const realizacaoTarefa = require("../taskRealization/taskRealizationModel")(sequelize, DataTypes);
+const estadoRealizacaoTarefa = require("../taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
+const feedbackAvaliacao = require("../feedback/feedbackModel")(sequelize, DataTypes);
+
+//Users associations
+Utilizador.belongsTo(Endereco, {
+  foreignKey: "EnderecoidEndereco",
+});
+
+Utilizador.belongsTo(Vizinhanca, {
+  foreignKey: "VizinhançaidVizinhança",
+});
+
+Utilizador.belongsTo(estadoUtilizador, {
+  foreignKey: "estadoUtilizadoridEstadoUtilizador",
+});
+
+Utilizador.belongsTo(tipoUtilizador, {
+  foreignKey: "tipoUtilizadoridTipoUtilizador",
+});
+
+
+// Task Creation
+
+criacaoTarefa.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador",
+});
+
+criacaoTarefa.belongsTo(categoriaTarefa, {
+  foreignKey: "categoriaTarefaidCategoriaTarefa",
+});
+
+criacaoTarefa.belongsTo(estadoCriacaoTarefa, {
+  foreignKey: "estadoCriacaoTarefaidEstadoCriacaoTarefa",
+});
+
+
+//Products associations
+Produto.belongsTo(Estabelecimento, {
+  foreignKey: "EstabelecimentoidEstabelecimento",
+});
+
+Produto.belongsTo(estadoProduto, {
+  foreignKey: "estadoProdutoidEstadoProduto",
+});
+
+Produto.belongsTo(tipoProduto, {
+  foreignKey: "tipoProdutoidTipoProduto",
+});
+
+//Redemptions associations
+resgateCodigo.belongsTo(Produto, {
+  foreignKey: "ProdutoidProduto"
+});
+
+resgateCodigo.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador"
+});
+
+resgateCodigo.belongsTo(estadoResgate, {
+  foreignKey: "estadoResgateidEstadoResgate"
+});
+
+Denuncia.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador",
+});
+
+Notificacao.belongsTo(Utilizador, {
+  foreignKey: "UtilizadoridUtilizador",
+});
+
+Notificacao.belongsTo(criacaoTarefa, {
+  foreignKey: "criacaoTarefaidTarefaCriada"
+});
+
+//Feedback Avaliacao
+feedbackAvaliacao.belongsTo(criacaoTarefa, {
+  foreignKey: "criacaoTarefaidTarefaCriada"
+});
+
+feedbackAvaliacao.belongsTo(realizacaoTarefa, {
+  foreignKey: "RealizacaoTarefaidRealizacaoTarefa"
+});
+
+
+// task realization
+
+realizacaoTarefa.belongsTo(criacaoTarefa, { foreignKey: "criacaoTarefaidTarefaCriada" });
+realizacaoTarefa.belongsTo(Utilizador, { foreignKey: "UtilizadoridUtilizador" });
+realizacaoTarefa.belongsTo(estadoRealizacaoTarefa, { foreignKey: "estadoRealizacaoTarefaidEstadoRealizacaoTarefa" });
+
+module.exports = {
+  sequelize,
+  Utilizador,
+  Endereco,
+  Vizinhanca,
+  estadoUtilizador,
+  tipoUtilizador,
+  Denuncia,
+  criacaoTarefa,
+  Notificacao,
+  categoriaTarefa,
+  estadoCriacaoTarefa,
+  Produto,
+  Estabelecimento,
+  estadoProduto,
+  tipoProduto,
+  resgateCodigo,
+  estadoResgate,
+  realizacaoTarefa,
+  estadoRealizacaoTarefa,
+  feedbackAvaliacao
+};
