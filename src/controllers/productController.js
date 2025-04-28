@@ -4,6 +4,7 @@ const getProductByIdController = async (req, res) => {
   try {
     const { productId } = req.params;
     const product = await productService.getProductById(productId);
+
     res.status(200).json({ message: "Product fetched successfully", product: product });
   } catch (error) {
     res.status(500).json({ error: "Product not found" });
@@ -11,6 +12,7 @@ const getProductByIdController = async (req, res) => {
 };
 
 const getProductByTypeController = async (req, res) => {
+  
   try {
     const { typeId } = req.params;
     const product = await productService.getProductByType(typeId);
@@ -39,14 +41,32 @@ const getProductController = async (req, res) => {
     };
 };
 
-  const createProductController = async (req, res) => {
-    try {
-      const result = await productService.createProduct(req.body);
-      res.status(201).json({ message: "Product added successfully", product: result  });
-    } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+const createProductController = async (req, res) => {
+  try {
+    const { nomeProduto, precoProduto, descricaoProduto, tipoProdutoidTipoProduto, estadoProdutoidEstadoProduto, EstabelecimentoidEstabelecimento } = req.body;
+    const imagemProduto = req.file ? req.file.filename : null;
+
+    if (!imagemProduto) {
+      return res.status(400).json({ error: "Image upload failed" });
     }
-  };
+
+    const productData = {
+      nomeProduto,
+      precoProduto,
+      descricaoProduto,
+      imagemProduto,
+      tipoProdutoidTipoProduto,
+      estadoProdutoidEstadoProduto,
+      EstabelecimentoidEstabelecimento
+    };
+
+    const result = await productService.createProduct(productData);
+    res.status(201).json({ message: "Product added successfully", product: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
   const updateProductController = async (req, res) => {
       try {

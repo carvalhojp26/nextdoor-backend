@@ -21,4 +21,14 @@ const createNeighborhood = async (body) => {
   }
 };
 
-module.exports = {getNeighborhood, createNeighborhood}
+const deleteNeighborhood = async (neighborhoodId) => {
+  try {
+    const deleted = await Vizinhanca.destroy({ where: { idVizinhanca: neighborhoodId } });
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting neighborhood in database:", error);
+    throw error;
+  }
+};
+
+module.exports = {getNeighborhood, createNeighborhood, deleteNeighborhood}

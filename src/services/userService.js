@@ -67,6 +67,7 @@ const registerUser = async (body) => {
 		return user;
 	} catch (error) {
 		console.error("Error adding user in database: ", error);
+    throw error;
 	};
 };
 

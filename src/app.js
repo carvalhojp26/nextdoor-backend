@@ -17,6 +17,7 @@ const taskRealization = require("./routes/taskRealizationRoutes");
 
 app.use(express.json());
 
+app.use('/uploads', express.static('src/uploads'));
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/taskCreation", tasksCreationRoutes);

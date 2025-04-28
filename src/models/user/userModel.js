@@ -31,22 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      VizinhançaidVizinhança: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      EnderecoidEndereco: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      estadoUtilizadoridEstadoUtilizador: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      tipoUtilizadoridTipoUtilizador: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      }
     },
     {
       tableName: "Utilizador",

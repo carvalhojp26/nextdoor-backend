@@ -5,16 +5,12 @@ const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 const authenticateToken = require("../middlewares/authenticateToken");
 
 
-router.get("/neighborhood/:neighborhoodId", sqlInjectionGuard, userController.getUserByNeighborhoodController);
-router.get("/:userId", sqlInjectionGuard, userController.getUserByIdController);
-router.get("/", sqlInjectionGuard, userController.getUserController);
+router.get("/", sqlInjectionGuard, authenticateToken, userController.getUserController);
+router.get("/neighborhood/:neighborhoodId", authenticateToken, sqlInjectionGuard, userController.getUserByNeighborhoodController);
 router.post("/register", sqlInjectionGuard, userController.registerUserController)
 router.post("/login", sqlInjectionGuard, userController.loginUserController)
-router.put("/:userId", sqlInjectionGuard, userController.updateUserController);
-router.delete("/:userId", sqlInjectionGuard, userController.deleteUserController);
-
-router.get("/protected-route", authenticateToken, (req, res) => {
-  res.json({ message: "You are authenticated!" });
-})
+router.patch("/:userId", sqlInjectionGuard, authenticateToken, userController.updateUserController);
+router.get("/:userId", sqlInjectionGuard, authenticateToken, userController.getUserByIdController);
+router.delete("/:userId", authenticateToken, sqlInjectionGuard, userController.deleteUserController);
 
 module.exports = router;

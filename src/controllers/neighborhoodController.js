@@ -18,4 +18,14 @@ const createNeighborhoodController = async (req, res) => {
   }
 };
 
-module.exports = {getNeighborhoodController, createNeighborhoodController}
+const deleteNeighborhoodController = async (req, res) => {
+  const { neighborhoodId } = req.params;
+  try {
+    const result = await neighborhoodService.deleteNeighborhood(neighborhoodId);
+    res.status(200).json({message: "Neighborhood deleted successfully", neighborhood: result,});
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {getNeighborhoodController, createNeighborhoodController, deleteNeighborhoodController}

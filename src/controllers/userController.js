@@ -63,7 +63,9 @@ const loginUserController = async (req, res) => {
 		}
 
 		const token = jwt.sign(
+      // 1. Payload: Os dados que vão dentro do token, o token não é encriptado nem codificado, colocar informação não sensivel pois podem roubar indormação do token
 			{ idUtilizador: user.idUtilizador, emailUtilizador: user.emailUtilizador },
+      //Chave Secreta: Usada para "assinar" o token
 			process.env.SECRET_KEY,
 			{ expiresIn: '1h' }
 		)
