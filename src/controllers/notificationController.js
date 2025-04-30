@@ -1,17 +1,18 @@
 const notificationService = require("../services/notificationService");
 
-const listNotifications = async (req, res) => {
+const getNotificationController = async (req, res) => {
   try {
-    const result = await notificationService.getNotification();
+    const userId = req.user.idUtilizador;
+    const result = await notificationService.getNotification(userId);
     res.status(200).json({ message: "Notification fetched successfully", notification: result });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-const addNotification = async (req, res) => {
+const createNotificationController = async (req, res) => {
   try {
-    const result = await notificationService.insertNotification(req.body);
+  		const result = await notificationService.createNotification(req.body);
     res.status(201).json({ message: "Notification added successfully", notification: result });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -28,4 +29,4 @@ const deleteNotificationController = async (req, res) => {
   }
 };
 
-module.exports = { listNotifications, addNotification, deleteNotificationController};
+module.exports = { getNotificationController, createNotificationController, deleteNotificationController};

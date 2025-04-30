@@ -18,10 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       descricaoProduto: {
         type: DataTypes.STRING,
         allowNull: false
+        
       },
       imagemProduto: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       }
     },
     {

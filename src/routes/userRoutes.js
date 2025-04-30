@@ -1,23 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const {
-  listUsers,
-  deleteUserController,
-  editUser,
-  registerUserController,
-  loginUserController
-} = require("../controllers/userController");
+const userController = require("../controllers/userController");
 const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 const authenticateToken = require("../middlewares/authenticateToken");
 
-router.get("/", sqlInjectionGuard, listUsers);
-router.post("/register", sqlInjectionGuard, registerUserController)
-router.post("/login", sqlInjectionGuard, loginUserController)
-router.put("/:userId", sqlInjectionGuard, editUser);
-router.delete("/:userId", sqlInjectionGuard, deleteUserController);
-
-router.get("/protected-route", authenticateToken, (req, res) => {
-  res.json({ message: "You are authenticated!" });
-})
+//Administradores
+router.get("/", authenticateToken, sqlInjectionGuard, userController.getAllUsersController);
+router.delete("/delete/:userId", authenticateToken, sqlInjectionGuard, userController.deleteUserController); //Apenas para administradores
+//Vizinhos
+router.get("/perfil", authenticateToken, sqlInjectionGuard, userController.getUserController); //Vizinho poderá ver o seu próprio perfil
+router.patch("/edit", sqlInjectionGuard, authenticateToken, userController.updateUserController); //O Vizinho  poderá editar o seu perfil
+router.get("/neighborhood", authenticateToken, sqlInjectionGuard, userController.getUsersByNeighborhoodController); //O vizinho poderá ver apenas os seus vizinhos
+router.get("/neighborhood/:userId", sqlInjectionGuard, authenticateToken, userController.getUserByIdController); //o vizinho poderá selecionar um vizinho seu
+router.post("/register", sqlInjectionGuard, userController.registerUserController);
+router.post("/login", sqlInjectionGuard, userController.loginUserController);
 
 module.exports = router;

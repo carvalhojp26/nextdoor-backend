@@ -1,11 +1,65 @@
-const { Produto, Estabelecimento, estadoProduto, tipoProduto} = require("../models/associations");
+const { Produto, Estabelecimento, estadoProduto, tipoProduto} = require("../models/association/associations");
 
-const getProducts = async () => {
+const getProductById = async (productId) => {
   try {
-    const products = await Produto.findAll({
+    const product = await Produto.findOne({
+      where: { idProduto: productId },
       include: [
         { model: Estabelecimento },
-        { model: estadoProduto }, 
+        { model: estadoProduto },
+        { model: tipoProduto }
+      ],
+    });
+
+    return product;
+  } catch (error) {
+    console.error("Error getting product by ID from database:", error);
+    throw error;
+  }
+};
+
+const getProductByType = async (typeId) => {
+  try {
+    const product = await Produto.findAll({
+      where: { tipoProdutoidTipoProduto: typeId },
+      include: [
+        { model: Estabelecimento },
+        { model: estadoProduto },
+        { model: tipoProduto }
+      ],
+    });
+
+    return product;
+  } catch (error) {
+    console.error("Error getting product by type from database:", error);
+    throw error;
+  }
+};
+
+const getProductByEstablishment = async (establishmentId) => {
+  try {
+    const product = await Produto.findAll({
+      where: { EstabelecimentoidEstabelecimento: establishmentId },
+      include: [
+        { model: Estabelecimento },
+        { model: estadoProduto },
+        { model: tipoProduto }
+      ],
+    });
+
+    return product;
+  } catch (error) {
+    console.error("Error getting product by establishment from database:", error);
+    throw error;
+  }
+};
+
+const getProduct = async () => {
+  try {
+    const products = await Produto.findAll({
+      include: [      
+        { model: Estabelecimento },
+        { model: estadoProduto},
         { model: tipoProduto }
       ],
     });
@@ -16,7 +70,7 @@ const getProducts = async () => {
   }
 };
 
-const insertProduct = async (body) => {
+const createProduct = async (body) => {
   try {
     const product = await Produto.create(body);
     return product;
@@ -31,21 +85,7 @@ const updateProduct = async (productId, body) => {
     const [updatedRows] = await Produto.update(body, {
       where: { idProduto: productId },
     });
-
-    if (updatedRows === 0) {
-      throw new Error(`Product with Id ${productId} not found.`);
-    }
-
-    const updatedProduct = await Produto.findOne({
-      where: { idProduto: productId },
-      include: [
-        { model: Estabelecimento },
-        { model: estadoProduto },
-        { model: tipoProduto },
-      ],
-    });
-
-    return updatedProduct;
+    return updatedRows;
   } catch (error) {
     console.error("Error updating product in database:", error);
     throw error;
@@ -62,4 +102,4 @@ const deleteProduct = async (productId) => {
   }
 };
 
-module.exports = { getProducts, insertProduct, updateProduct, deleteProduct };
+module.exports = { getProductById, getProductByType, getProductByEstablishment, getProduct, createProduct, updateProduct, deleteProduct };

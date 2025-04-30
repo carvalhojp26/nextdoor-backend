@@ -1,17 +1,19 @@
+const { where } = require("sequelize");
 const {
   Utilizador,
   Endereco,
   Vizinhanca,
   estadoUtilizador,
   tipoUtilizador,
-} = require("../models/associations");
+} = require("../models/association/associations");
 
-const getUsers = async () => {
+//Admin
+const getAllUsers = async () => {
   try {
     const users = await Utilizador.findAll({
       include: [
         { model: Endereco },
-        { model: Vizinhanca },  //Estamos a pedir ao sequilize para fazer inners joins no sql e retornar os dados
+        { model: Vizinhanca },
         { model: estadoUtilizador },
         { model: tipoUtilizador },
       ],
@@ -23,26 +25,9 @@ const getUsers = async () => {
   }
 };
 
-const registerUser = async (body) => {
-  	try {
-		const user = await Utilizador.create(body);
-		return user;
-	} catch (error) {
-		console.error("Error adding user in database: ", error);
-	};
-};
-
-const updateUser = async (userId, body) => {
+const getUser = async (userId) => {
   try {
-    const [updatedRows] = await Utilizador.update(body, {
-      where: { idUtilizador: userId },
-    });
-
-    if (updatedRows === 0) {
-      throw new Error(`User with Id ${userId} not found.`);
-    }
-
-    const updatedUser = await Utilizador.findOne({
+    const users = await Utilizador.findAll({
       where: { idUtilizador: userId },
       include: [
         { model: Endereco },
@@ -51,8 +36,70 @@ const updateUser = async (userId, body) => {
         { model: tipoUtilizador },
       ],
     });
+    return users;
+  } catch (error) {
+    console.error("Error getting users in database:", error);
+    throw error;
+  }
+};
 
-    return updatedUser;
+const getUserById = async (userId, neighborhoodId) => {
+  try {
+    const user = await Utilizador.findOne({
+      where: { idUtilizador: userId,
+        VizinhançaidVizinhança: neighborhoodId
+       },
+      include: [
+        { model: Endereco },
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
+      ],
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error getting user by ID from database:", error);
+    throw error;
+  }
+};
+
+const getUsersByNeighborhood = async (neighborhoodId) => {
+  try {
+    const user = await Utilizador.findAll({
+      where: { VizinhançaidVizinhança: neighborhoodId },
+      include: [
+        { model: Endereco },
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
+      ],
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error getting user by neighborhood from database:", error);
+    throw error;
+  }
+};
+
+
+const registerUser = async (body) => {
+  	try {
+		const user = await Utilizador.create(body);
+		return user;
+	} catch (error) {
+		console.error("Error adding user in database: ", error);
+    throw error
+	};
+};
+
+const updateUser = async (userId, body) => {
+  try {
+    const [updatedRows] = await Utilizador.update(body, {
+      where: { idUtilizador: userId },
+    });
+    return updatedRows;
   } catch (error) {
     console.error("Error updating user in database:", error);
     throw error;
@@ -69,4 +116,4 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { getUsers, deleteUser, updateUser, registerUser };
+module.exports = { getAllUsers ,getUser, getUserById, getUsersByNeighborhood, registerUser, updateUser, deleteUser };

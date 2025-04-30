@@ -1,8 +1,9 @@
-const { resgateCodigo, Produto, Utilizador, estadoResgate} = require("../models/associations");
+const { resgateCodigo, Produto, Utilizador, estadoResgate} = require("../models/association/associations");
 
-const getRedemptionCodes = async () => {
+const getRedemptionsCode = async (userId) => {
   try {
     const redemptionCode = await resgateCodigo.findAll({
+      where: { UtilizadoridUtilizador: userId},
       include: [
         { model: Produto },
         { model: Utilizador }, 
@@ -16,7 +17,7 @@ const getRedemptionCodes = async () => {
   }
 };
 
-const insertRedemptionCode = async (body) => {
+const createRedemptionCode = async (body) => {
   try {
     const redemptionCode = await resgateCodigo.create(body);
     return redemptionCode;
@@ -26,4 +27,4 @@ const insertRedemptionCode = async (body) => {
   }
 };
 
-module.exports = { getRedemptionCodes, insertRedemptionCode}
+module.exports = { getRedemptionsCode, createRedemptionCode}

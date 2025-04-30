@@ -1,4 +1,4 @@
-const { Vizinhanca } = require("../models/associations");
+const { Vizinhanca } = require("../models/association/associations");
 
 const getNeighborhood = async () => {
   try {
@@ -11,7 +11,7 @@ const getNeighborhood = async () => {
   }
 };
 
-const insertNeighborhood = async (body) => {
+const createNeighborhood = async (body) => {
   try {
     const neighborhood = await Vizinhanca.create(body);
     return neighborhood;
@@ -21,4 +21,14 @@ const insertNeighborhood = async (body) => {
   }
 };
 
-module.exports = {getNeighborhood, insertNeighborhood}
+const deleteNeighborhood = async (neighborhoodId) => {
+  try {
+    const deleted = await Vizinhanca.destroy({ where: { idVizinhanca: neighborhoodId } });
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting neighborhood in database:", error);
+    throw error;
+  }
+};
+
+module.exports = {getNeighborhood, createNeighborhood, deleteNeighborhood}

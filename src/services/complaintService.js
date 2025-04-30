@@ -1,7 +1,7 @@
 const {
     Utilizador,
     Denuncia
-  } = require("../models/associations");
+  } = require("../models/association/associations");
   
 
 const getComplaint = async () => {
@@ -17,7 +17,7 @@ const getComplaint = async () => {
       throw error;
     }
   };
-  const insertComplaint = async (body) => {
+  const createComplaint = async (body) => {
     try {
       const complaint = await Denuncia.create(body);
       return complaint;
@@ -36,4 +36,4 @@ const getComplaint = async () => {
     }
   };
 
-  module.exports = { getComplaint, insertComplaint, deleteComplaint};
+  module.exports = { getComplaint, createComplaint, deleteComplaint};

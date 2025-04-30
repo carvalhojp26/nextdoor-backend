@@ -2,11 +2,12 @@ const {
     Utilizador,
     criacaoTarefa,
     Notificacao
-  } = require("../models/associations");
+  } = require("../models/association/associations");
   
-  const getNotification = async () => {
+  const getNotification = async (userId) => {
     try {
       const notifications = await Notificacao.findAll({
+        where: { UtilizadoridUtilizador: userId },
         include: [
           { model: Utilizador },
           { model: criacaoTarefa },
@@ -19,7 +20,7 @@ const {
     }
   };
   
-  const insertNotification = async (body) => {
+  const createNotification = async (body) => {
     try {
       const notification = await Notificacao.create(body);
       return notification;
@@ -39,5 +40,5 @@ const {
     }
   };
   
-  module.exports = { getNotification, insertNotification, deleteNotification };
+  module.exports = { getNotification, createNotification, deleteNotification };
   

@@ -1,5 +1,3 @@
-const { Vizinhanca, estadoUtilizador, tipoUtilizador } = require("../associations");
-
 module.exports = (sequelize, DataTypes) => {
   const Utilizador = sequelize.define(
     "Utilizador",
@@ -33,22 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      VizinhançaidVizinhança: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      EnderecoidEndereco: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      estadoUtilizadoridEstadoUtilizador: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      tipoUtilizadoridTipoUtilizador: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      }
     },
     {
       tableName: "Utilizador",

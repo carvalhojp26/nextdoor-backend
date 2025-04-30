@@ -15,7 +15,7 @@ function sqlInjectionGuard (req, res, next) {
         /convert\(.+,\s*\w+\)/i,         // CONVERT(x, type) for type casting
         /char\(.+?\)/i,                  // CHAR() to build strings
         /waitfor\s+delay/i,              // WAITFOR DELAY to slow down queries
-        /information_schema/i,          // Access to DB schema information
+        /information_schema/i,           // Access to DB schema information
         /1\s*=\s*1/,                     // Always-true condition
         /\bor\b\s+\d+\s*=\s*\d+/i,       // OR 1=1 pattern
         /\band\b\s+\d+\s*=\s*\d+/i,      // AND 1=1 pattern

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { listComplaints, addComplaint, deleteComplaintController } = require("../controllers/complaintController");
+const complaintController = require("../controllers/complaintController");
 const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
+const authenticateToken = require("../middlewares/authenticateToken");
 
-router.get('/', sqlInjectionGuard, listComplaints);
-router.post('/', sqlInjectionGuard, addComplaint);
-router.delete('/:idDenuncia', sqlInjectionGuard, deleteComplaintController);
+router.get('/', sqlInjectionGuard, authenticateToken, complaintController.getComplaintController);
+router.post('/', sqlInjectionGuard, authenticateToken, complaintController.createComplaintController);
+router.delete('/:idDenuncia', authenticateToken, sqlInjectionGuard, complaintController.deleteComplaintController);
 
 module.exports = router;
