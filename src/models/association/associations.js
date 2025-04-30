@@ -19,7 +19,6 @@ const estadoResgate = require("../redemptionCode/redemptionStateModel")(sequeliz
 const realizacaoTarefa = require("../taskRealization/taskRealizationModel")(sequelize, DataTypes);
 const estadoRealizacaoTarefa = require("../taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
 
-//Users associations
 Utilizador.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco",
 });
@@ -37,8 +36,6 @@ Utilizador.belongsTo(tipoUtilizador, {
 });
 
 
-// Task Creation
-
 criacaoTarefa.belongsTo(Utilizador, {
   foreignKey: "UtilizadoridUtilizador",
 });
@@ -51,8 +48,6 @@ criacaoTarefa.belongsTo(estadoCriacaoTarefa, {
   foreignKey: "estadoCriacaoTarefaidEstadoCriacaoTarefa",
 });
 
-
-//Products associations
 Produto.belongsTo(Estabelecimento, {
   foreignKey: "EstabelecimentoidEstabelecimento",
 });
@@ -65,7 +60,6 @@ Produto.belongsTo(tipoProduto, {
   foreignKey: "tipoProdutoidTipoProduto",
 });
 
-//Redemptions associations
 resgateCodigo.belongsTo(Produto, {
   foreignKey: "ProdutoidProduto"
 });
@@ -90,11 +84,19 @@ Notificacao.belongsTo(criacaoTarefa, {
   foreignKey: "criacaoTarefaidTarefaCriada"
 })
 
-// task realization
+realizacaoTarefa.belongsTo(criacaoTarefa, {
+   foreignKey: "criacaoTarefaidTarefaCriada"
+});
+realizacaoTarefa.belongsTo(Utilizador, { 
+  foreignKey: "UtilizadoridUtilizador"
+});
+realizacaoTarefa.belongsTo(estadoRealizacaoTarefa, { 
+  foreignKey: "estadoRealizacaoTarefaidEstadoRealizacaoTarefa"
+});
 
-realizacaoTarefa.belongsTo(criacaoTarefa, { foreignKey: "criacaoTarefaidTarefaCriada" });
-realizacaoTarefa.belongsTo(Utilizador, { foreignKey: "UtilizadoridUtilizador" });
-realizacaoTarefa.belongsTo(estadoRealizacaoTarefa, { foreignKey: "estadoRealizacaoTarefaidEstadoRealizacaoTarefa" });
+Estabelecimento.belongsTo(Endereco, {
+  foreignKey: "EnderecoidEndereco"
+});
 
 module.exports = {
   sequelize,

@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const {
   Utilizador,
   Endereco,
@@ -6,10 +7,48 @@ const {
   tipoUtilizador,
 } = require("../models/association/associations");
 
-const getUserById = async (userId) => {
+//Admin
+const getAllUsers = async () => {
+  try {
+    const users = await Utilizador.findAll({
+      include: [
+        { model: Endereco },
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
+      ],
+    });
+    return users;
+  } catch (error) {
+    console.error("Error getting users in database:", error);
+    throw error;
+  }
+};
+
+const getUser = async (userId) => {
+  try {
+    const users = await Utilizador.findAll({
+      where: { idUtilizador: userId },
+      include: [
+        { model: Endereco },
+        { model: Vizinhanca },
+        { model: estadoUtilizador },
+        { model: tipoUtilizador },
+      ],
+    });
+    return users;
+  } catch (error) {
+    console.error("Error getting users in database:", error);
+    throw error;
+  }
+};
+
+const getUserById = async (userId, neighborhoodId) => {
   try {
     const user = await Utilizador.findOne({
-      where: { idUtilizador: userId },
+      where: { idUtilizador: userId,
+        VizinhançaidVizinhança: neighborhoodId
+       },
       include: [
         { model: Endereco },
         { model: Vizinhanca },
@@ -25,7 +64,7 @@ const getUserById = async (userId) => {
   }
 };
 
-const getUserByNeighborhood = async (neighborhoodId) => {
+const getUsersByNeighborhood = async (neighborhoodId) => {
   try {
     const user = await Utilizador.findAll({
       where: { VizinhançaidVizinhança: neighborhoodId },
@@ -44,22 +83,6 @@ const getUserByNeighborhood = async (neighborhoodId) => {
   }
 };
 
-const getUser = async () => {
-  try {
-    const users = await Utilizador.findAll({
-      include: [
-        { model: Endereco },
-        { model: Vizinhanca },
-        { model: estadoUtilizador },
-        { model: tipoUtilizador },
-      ],
-    });
-    return users;
-  } catch (error) {
-    console.error("Error getting users in database:", error);
-    throw error;
-  }
-};
 
 const registerUser = async (body) => {
   	try {
@@ -67,7 +90,7 @@ const registerUser = async (body) => {
 		return user;
 	} catch (error) {
 		console.error("Error adding user in database: ", error);
-    throw error;
+    throw error
 	};
 };
 
@@ -93,4 +116,4 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { getUser, getUserById, getUserByNeighborhood, registerUser, updateUser, deleteUser };
+module.exports = { getAllUsers ,getUser, getUserById, getUsersByNeighborhood, registerUser, updateUser, deleteUser };

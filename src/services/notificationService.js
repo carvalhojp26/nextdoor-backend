@@ -4,9 +4,10 @@ const {
     Notificacao
   } = require("../models/association/associations");
   
-  const getNotification = async () => {
+  const getNotification = async (userId) => {
     try {
       const notifications = await Notificacao.findAll({
+        where: { UtilizadoridUtilizador: userId },
         include: [
           { model: Utilizador },
           { model: criacaoTarefa },

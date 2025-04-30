@@ -4,6 +4,7 @@ const redemptionCodeController = require("../controllers/redemptionCodeControlle
 const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 const authenticateToken = require("../middlewares/authenticateToken");
 
-router.get('/', sqlInjectionGuard, authenticateToken, redemptionCodeController.getRedemptionCodeController);
+//Apenas vai mostrar códigos associados ao próprio utilizador
+router.get('/', sqlInjectionGuard, authenticateToken, redemptionCodeController.getRedemptionCodesController);
 router.post('/', sqlInjectionGuard, authenticateToken, redemptionCodeController.createRedemptionCodeController);
 module.exports = router;

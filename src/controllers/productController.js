@@ -1,8 +1,8 @@
 const productService = require("../services/productService")
 
 const getProductByIdController = async (req, res) => {
+  const { productId } = req.params;
   try {
-    const { productId } = req.params;
     const product = await productService.getProductById(productId);
 
     res.status(200).json({ message: "Product fetched successfully", product: product });
@@ -12,9 +12,8 @@ const getProductByIdController = async (req, res) => {
 };
 
 const getProductByTypeController = async (req, res) => {
-  
+  const { typeId } = req.params;
   try {
-    const { typeId } = req.params;
     const product = await productService.getProductByType(typeId);
     res.status(200).json({ message: "Product fetched successfully", product: product });
   } catch (error) {

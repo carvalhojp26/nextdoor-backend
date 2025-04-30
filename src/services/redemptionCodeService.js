@@ -1,8 +1,9 @@
 const { resgateCodigo, Produto, Utilizador, estadoResgate} = require("../models/association/associations");
 
-const getRedemptionCode = async () => {
+const getRedemptionsCode = async (userId) => {
   try {
     const redemptionCode = await resgateCodigo.findAll({
+      where: { UtilizadoridUtilizador: userId},
       include: [
         { model: Produto },
         { model: Utilizador }, 
@@ -26,4 +27,4 @@ const createRedemptionCode = async (body) => {
   }
 };
 
-module.exports = { getRedemptionCode, createRedemptionCode}
+module.exports = { getRedemptionsCode, createRedemptionCode}
