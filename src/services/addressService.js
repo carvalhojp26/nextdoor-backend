@@ -1,15 +1,5 @@
 const { Endereco } = require("../models/association/associations");
   
-  const getAddress = async () => {
-    try {
-      const address = await Endereco.findAll();
-      return address;
-    } catch (error) {
-      console.error("Error getting address in database:", error);
-      throw error;
-    }
-  };
-  
   const createAddress = async (body) => {
     try {
       const address = await Endereco.create(body);
@@ -42,5 +32,5 @@ const { Endereco } = require("../models/association/associations");
     }
   };
   
-  module.exports = { getAddress, createAddress, updateAddress, deleteAddress};
+  module.exports = { createAddress, updateAddress, deleteAddress };
   

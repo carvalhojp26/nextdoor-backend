@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const {
   Utilizador,
   Endereco,
@@ -27,7 +26,7 @@ const getAllUsers = async () => {
 
 const getUser = async (userId) => {
   try {
-    const users = await Utilizador.findAll({
+    const users = await Utilizador.findOne({
       where: { idUtilizador: userId },
       include: [
         { model: Endereco },

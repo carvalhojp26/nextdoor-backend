@@ -33,12 +33,11 @@ const getUserController = async (req, res) => {
 const getUsersByNeighborhoodController = async (req, res) => {
   const userId = req.user.idUtilizador;
   try {
-    const allUsers = await userService.getAllUsers();
-    const findUser = allUsers.find((u) => u.idUtilizador === userId);
+    const findUser = await userService.getUser(userId);
     const neighborhoodId = findUser.VizinhançaidVizinhança;
 
-    const user = await userService.getUsersByNeighborhood(neighborhoodId);
-    res.status(200).json({ message: "User fetched successfully", user: user });
+    const result = await userService.getUsersByNeighborhood(neighborhoodId);
+    res.status(200).json({ message: "Users fetched successfully", users: result });
   } catch (error) {
     res.status(500).json({ error: "User not found" });
   }
@@ -46,11 +45,10 @@ const getUsersByNeighborhoodController = async (req, res) => {
 
 const getUserByIdController = async (req, res) => {
   const { userId } = req.params;
-  const userEmail = req.user.emailUtilizador;
+  const id = req.user.idUtilizador;
   try {
     
-    const allUsers = await userService.getAllUsers();
-    const findUser = allUsers.find((u) => u.emailUtilizador === userEmail);
+    const findUser = await userService.getUser(id);
     const neighborhoodId = findUser.VizinhançaidVizinhança;
     const user = await userService.getUserById(userId, neighborhoodId);
 
@@ -73,7 +71,7 @@ const registerUserController = async (req, res) => {
     !EnderecoidEndereco ||
     !estadoUtilizadoridEstadoUtilizador ||
     !tipoUtilizadoridTipoUtilizador ||
-    !pontosUtilizador
+    pontosUtilizador === undefined || pontosUtilizador === null
   ) {
     return res.status(400).json({ error: "Missing required fields." });
   }
@@ -155,9 +153,9 @@ const updateUserController = async (req, res) => {
 
 const deleteUserController = async (req, res) => {
   const { userId } = req.params;
-  const tipoUtilizador = req.user.idTipoUtilizador;
+  const userType = req.user.idTipoUtilizador;
   try {
-    if (tipoUtilizador !== 1) {
+    if (userType !== 1) {
       return res.status(403).json({ error: "Access denied. Admins only." });
     }
 

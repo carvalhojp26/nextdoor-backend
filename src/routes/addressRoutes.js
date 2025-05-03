@@ -4,9 +4,10 @@ const addressController = require("../controllers/addressController");
 const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 const authenticateToken = require("../middlewares/authenticateToken");
 
-router.get("/", sqlInjectionGuard, authenticateToken, addressController.getAddressController);
-router.post("/", sqlInjectionGuard, authenticateToken, addressController.createAddressController);
-router.patch("/:addressId", sqlInjectionGuard, authenticateToken, addressController.updateAddressController);
+//admin para estabelecimentos
 router.delete("/:addressId", sqlInjectionGuard, authenticateToken, addressController.deleteAddressController);
+router.patch("/:addressId", sqlInjectionGuard, authenticateToken, addressController.updateAddressController); 
+//Vizinho
+router.post("/", sqlInjectionGuard, addressController.createAddressController);
 
 module.exports = router;

@@ -15,7 +15,6 @@ function authenticateToken (req, res, next) {
             return res.send(403);
         }
         req.user = user; //Adiciona o conteúdo do token no req.user (por ex: o id do utilizador)
-        console.log(req.user);
         next()
     })
 }
