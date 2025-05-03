@@ -5,7 +5,7 @@ const sqlInjectionGuard = require("../middlewares/sqlInjectionGuard");
 const authenticateToken = require("../middlewares/authenticateToken");
 
 //Administradores
-router.get("/", authenticateToken, sqlInjectionGuard, userController.getAllUsersController);
+router.get("/all", authenticateToken, sqlInjectionGuard, userController.getAllUsersController);
 router.delete("/delete/:userId", authenticateToken, sqlInjectionGuard, userController.deleteUserController); //Apenas para administradores
 //Vizinhos
 router.get("/perfil", authenticateToken, sqlInjectionGuard, userController.getUserController); //Vizinho poderá ver o seu próprio perfil

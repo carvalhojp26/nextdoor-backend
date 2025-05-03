@@ -1,5 +1,5 @@
-const { Utilizador } = require("../models/association/associations");
 const redemptionCodeService = require("../services/redemptionCodeService")
+const userService = require("../services/userService")
 
 const getRedemptionCodesController = async (req, res) => {
   const userId = req.user.idUtilizador;
@@ -15,10 +15,15 @@ const createRedemptionCodeController = async (req, res) => {
   const userId = req.user.idUtilizador;
   const { ProdutoidProduto, estadoResgateidEstadoResgate } = req.body;
 
-  const codigo = Math.random().toString(8).substring(2, 8).toUpperCase(); //gera um numero, converte-o para base octal, tira-lhe o 0 e vai buscar os numeros entre a posição 2 e 8
-  const dataResgate = new Date();
-
   try {
+    const user = await userService.getUser(userId);
+    const neighborhoodId = user.VizinhançaidVizinhança;
+
+    const rawCode = `${userId}${neighborhoodId}${Date.now()}`;
+    const hash = Buffer.from(rawCode).toString("base64").replace(/[^A-Z0-9]/gi, "").substring(0, 8).toUpperCase();
+    const codigo = hash;
+
+    const dataResgate = new Date();
     const result = await redemptionCodeService.createRedemptionCode({
       dataResgate,
       ProdutoidProduto,
@@ -36,5 +41,6 @@ const createRedemptionCodeController = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 module.exports = { getRedemptionCodesController, createRedemptionCodeController };

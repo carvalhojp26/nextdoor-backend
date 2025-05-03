@@ -33,9 +33,8 @@ const getTaskCreationByIdController = async (req, res) => {
   const { taskCreationId } = req.params;
   const userId = req.user.idUtilizador;
   try {
-    const allUsers = await userService.getAllUsers();
-    const user = allUsers.find((u) => u.idUtilizador === userId);
-    const neighborhoodId = user.VizinhançaidVizinhança;
+    const findUser = await userService.getUser(userId);
+    const neighborhoodId = findUser.VizinhançaidVizinhança;
     const task = await taskCreationService.getTaskCreationById(
       taskCreationId,
       neighborhoodId
@@ -50,9 +49,8 @@ const getTasksCreationByCategoryController = async (req, res) => {
   const { categoryId } = req.params;
   const userId = req.user.idUtilizador;
   try {
-    const allUsers = await userService.getAllUsers();
-    const user = allUsers.find((u) => u.idUtilizador === userId);
-    const neighborhoodId = user.VizinhançaidVizinhança;
+    const findUser = await userService.getUser(userId);
+    const neighborhoodId = findUser.VizinhançaidVizinhança;
     const task = await taskCreationService.getTasksCreationByCategory(
       categoryId,
       neighborhoodId
@@ -66,9 +64,8 @@ const getTasksCreationByCategoryController = async (req, res) => {
 const getTasksCreationByNeighborhoodController = async (req, res) => {
   const userId = req.user.idUtilizador
   try {
-    const allUsers = await userService.getAllUsers();
-    const user = allUsers.find((u) => u.idUtilizador === userId); 
-    const neighborhoodId = user.VizinhançaidVizinhança;
+    const findUser = await userService.getUser(userId);
+    const neighborhoodId = findUser.VizinhançaidVizinhança;
     const task = await taskCreationService.getTasksCreationByNeighborhood(
       neighborhoodId
     );

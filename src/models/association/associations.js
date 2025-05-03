@@ -98,6 +98,11 @@ Estabelecimento.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco"
 });
 
+Estabelecimento.belongsTo(Vizinhanca, {
+  foreignKey: "VizinhancaidVizinhanca"
+});
+
+
 module.exports = {
   sequelize,
   Utilizador,
@@ -117,5 +122,5 @@ module.exports = {
   resgateCodigo,
   estadoResgate,
   realizacaoTarefa,
-  estadoRealizacaoTarefa
+  estadoRealizacaoTarefa,
 };
