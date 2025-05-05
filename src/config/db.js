@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 require("dotenv").config();
-console.log("DB_SERVER:", process.env.DB_SERVER)
+console.log("DB_SERVER:", process.env.DB_SERVER);
 
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,

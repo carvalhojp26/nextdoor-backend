@@ -4,8 +4,15 @@ const userService = require("../services/userService");
 const getTasksRealizationController = async (req, res) => {
   const userId = req.user.idUtilizador;
   try {
-    const realizations = await taskRealizationService.getTasksRealization(userId);
-    res.status(200).json({message: "Tasks performed fetched sucessfully", task: realizations});
+    const result = await taskRealizationService.getTasksRealization(
+      userId
+    );
+    res
+      .status(200)
+      .json({
+        message: "Tasks performed fetched sucessfully",
+        task: result,
+      });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch performed tasks" });
   }
@@ -18,16 +25,15 @@ const getTasksRealizationByUserController = async (req, res) => {
     const allUsers = await userService.getAllUsers();
     const findUser = allUsers.find((u) => u.idUtilizador === id);
     const neighborhoodId = findUser.VizinhançaidVizinhança;
-    const task = await taskRealizationService.getTasksRealizationByUser(
+    const result = await taskRealizationService.getTasksRealizationByUser(
       userId,
       neighborhoodId
     );
-    res.status(200).json({ message: "Task fetched successfully", task: task });
+    res.status(200).json({ message: "Task fetched successfully", task: result });
   } catch (error) {
     res.status(500).json({ error: "Task not found" });
   }
 };
-
 
 const createTaskRealizationController = async (req, res) => {
   const userId = req.user.idUtilizador;
@@ -47,7 +53,10 @@ const createTaskRealizationController = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "Task performed successfully created", task: newTaskAcepted });
+      .json({
+        message: "Task performed successfully created",
+        task: newTaskAcepted,
+      });
   } catch (error) {
     res.status(500).json({ error: "Error creating task realization" });
   }

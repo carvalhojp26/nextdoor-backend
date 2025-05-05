@@ -62,7 +62,7 @@ const getTasksCreationByCategoryController = async (req, res) => {
 };
 
 const getTasksCreationByNeighborhoodController = async (req, res) => {
-  const userId = req.user.idUtilizador
+  const userId = req.user.idUtilizador;
   try {
     const findUser = await userService.getUser(userId);
     const neighborhoodId = findUser.VizinhançaidVizinhança;
@@ -105,7 +105,7 @@ const createTaskCreationController = async (req, res) => {
   if (startDate > endDate) {
     return res
       .status(400)
-      .json({ error: "Start date must be before or equal to end date." });
+      .json({ error: "Start date must be before or equal to end date." });  
   }
 
   try {
@@ -173,7 +173,10 @@ const deleteTaskCreationController = async (req, res) => {
   const { taskCreationId } = req.params;
 
   try {
-    const deleted = await taskCreationService.deleteTaskCreation(taskCreationId, userId);
+    const deleted = await taskCreationService.deleteTaskCreation(
+      taskCreationId,
+      userId
+    );
 
     if (deleted === 0) {
       return res.status(404).json({ error: "Task not found" });
@@ -188,10 +191,10 @@ const deleteTaskCreationController = async (req, res) => {
 
 module.exports = {
   getAllTaskCreationController,
-  getTaskCreationController: getTasksCreationController,
-  getTaskCreationByCategoryController: getTasksCreationByCategoryController,
+  getTasksCreationController,
+  getTasksCreationByCategoryController,
   getTaskCreationByIdController,
-  getTaskCreationByNeighborhoodController: getTasksCreationByNeighborhoodController,
+  getTasksCreationByNeighborhoodController,
   createTaskCreationController,
   updateTaskCreationController,
   deleteTaskCreationController,

@@ -1,13 +1,18 @@
-const { resgateCodigo, Produto, Utilizador, estadoResgate} = require("../models/association/associations");
+const {
+  resgateCodigo,
+  Produto,
+  Utilizador,
+  estadoResgate,
+} = require("../models/association/associations");
 
 const getRedemptionsCode = async (userId) => {
   try {
     const redemptionCode = await resgateCodigo.findAll({
-      where: { UtilizadoridUtilizador: userId},
+      where: { UtilizadoridUtilizador: userId },
       include: [
         { model: Produto },
-        { model: Utilizador }, 
-        { model: estadoResgate }
+        { model: Utilizador },
+        { model: estadoResgate },
       ],
     });
     return redemptionCode;
@@ -27,4 +32,4 @@ const createRedemptionCode = async (body) => {
   }
 };
 
-module.exports = { getRedemptionsCode, createRedemptionCode}
+module.exports = { getRedemptionsCode, createRedemptionCode };

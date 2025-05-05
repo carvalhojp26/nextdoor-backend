@@ -3,6 +3,7 @@ const {
   Utilizador,
   categoriaTarefa,
   estadoCriacaoTarefa,
+  Endereco,
 } = require("../models/association/associations");
 
 //Admin
@@ -10,7 +11,7 @@ const getAllTaskCreation = async () => {
   try {
     const tasks = await criacaoTarefa.findAll({
       include: [
-        { model: Utilizador },
+        { model: Utilizador, include: [{ model: Endereco }] },
         { model: categoriaTarefa },
         { model: estadoCriacaoTarefa },
       ],
@@ -23,12 +24,13 @@ const getAllTaskCreation = async () => {
   }
 };
 
+//My tasks
 const getTasksCreation = async (userId) => {
   try {
     const tasks = await criacaoTarefa.findAll({
-      where: { UtilizadoridUtilizador: userId }, 
+      where: { UtilizadoridUtilizador: userId },
       include: [
-        { model: Utilizador },
+        { model: Utilizador, include: [{ model: Endereco }] },
         { model: categoriaTarefa },
         { model: estadoCriacaoTarefa },
       ],
@@ -39,7 +41,6 @@ const getTasksCreation = async (userId) => {
     throw error;
   }
 };
-
 
 const getTaskCreationById = async (taskCreationId, neighborhoodId) => {
   try {
@@ -51,12 +52,13 @@ const getTaskCreationById = async (taskCreationId, neighborhoodId) => {
           where: {
             VizinhançaidVizinhança: neighborhoodId,
           },
+          include: [{ model: Endereco }],
         },
         { model: categoriaTarefa },
         { model: estadoCriacaoTarefa },
       ],
     });
-    
+
     return task;
   } catch (error) {
     console.error("Error fetching task by ID from database:", error);
@@ -73,6 +75,7 @@ const getTasksCreationByNeighborhood = async (neighborhoodId) => {
           where: {
             VizinhançaidVizinhança: neighborhoodId,
           },
+          include: [{ model: Endereco }],
         },
         { model: categoriaTarefa },
         { model: estadoCriacaoTarefa },
@@ -96,6 +99,7 @@ const getTasksCreationByCategory = async (categoryId, neighborhoodId) => {
           where: {
             VizinhançaidVizinhança: neighborhoodId,
           },
+          include: [{ model: Endereco }],
         },
         { model: categoriaTarefa },
         { model: estadoCriacaoTarefa },
@@ -108,8 +112,6 @@ const getTasksCreationByCategory = async (categoryId, neighborhoodId) => {
     throw error;
   }
 };
-
-
 
 const createTaskCreation = async (data) => {
   try {
@@ -124,7 +126,7 @@ const createTaskCreation = async (data) => {
 const updateTaskCreation = async (taskCreationId, updateFields, userId) => {
   try {
     const [updatedRows] = await criacaoTarefa.update(updateFields, {
-      where: { idTarefaCriada: taskCreationId, UtilizadoridUtilizador: userId},
+      where: { idTarefaCriada: taskCreationId, UtilizadoridUtilizador: userId },
     });
     return updatedRows;
   } catch (error) {
