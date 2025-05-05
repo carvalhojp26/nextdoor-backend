@@ -68,15 +68,33 @@ const getProductController = async (req, res) => {
   }
 };
 
+const getProductByEstablsihmentController = async (req, res) => {
+  const userId = req.user.idUtilizador;
+  const { establishmentId } = req.params;
+
+  try {
+    const user = await userService.getUser(userId);
+    const neighborhoodId = user.VizinhançaidVizinhança;
+
+    const result = await productService.getProductByEstablishment(establishmentId, neighborhoodId);
+
+    res
+      .status(200)
+      .json({ message: "Products fetched successfully", products: result });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 //Admin
-const getProductByEstablishmentController = async (req, res) => {
+const getProductByAllEstablishmentController = async (req, res) => {
   const userType = req.user.idTipoUtilizador;
   const { establishmentId } = req.params;
   try {
     if (userType !== 1) {
       return res.status(403).json({ error: "Access denied. Admins only." });
     }
-    const product = await productService.getProductByEstablishment(
+    const product = await productService.getProductByAllEstablishment(
       establishmentId
     );
     res
@@ -167,7 +185,8 @@ module.exports = {
   getProductByIdController,
   getProductByTypeController,
   getProductController,
-  getProductByEstablishmentController,
+  getProductByEstablsihmentController,
+  getProductByAllEstablishmentController,
   createProductController,
   updateProductController,
   deleteProductController,
