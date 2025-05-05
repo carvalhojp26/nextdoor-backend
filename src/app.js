@@ -22,20 +22,22 @@ const neighborhoodRoutes = require("./routes/neighborhoodRoutes");
 const redemptionCodeRoutes = require("./routes/redemptionCodeRoutes");
 const taskRealizationRoutes = require("./routes/taskRealizationRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
 
 app.use(express.json());
 
 app.use('/uploads', express.static('src/uploads'));
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/taskCreation", tasksCreationRoutes);
+app.use("/api/taskCreations", tasksCreationRoutes);
 app.use("/api/addresses", addressRoutes);
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/neighborhoods", neighborhoodRoutes)
 app.use("/api/redemptionCodes", redemptionCodeRoutes);
-app.use("/api/taskRealization", taskRealizationRoutes);
+app.use("/api/taskRealizations", taskRealizationRoutes);
 app.use("/api/establishments", establishmentRoutes);
+app.use("/api/feedbacks", feedbackRoutes);
 
 try {
   db.sequelize.authenticate();

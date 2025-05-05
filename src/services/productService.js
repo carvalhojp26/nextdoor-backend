@@ -1,13 +1,22 @@
-const { Produto, Estabelecimento, estadoProduto, tipoProduto} = require("../models/association/associations");
+const {
+  Produto,
+  Estabelecimento,
+  estadoProduto,
+  tipoProduto,
+  Endereco,
+} = require("../models/association/associations");
 const { Op } = require("sequelize");
 const getProductById = async (productId, establishmentIds) => {
   try {
     const product = await Produto.findOne({
-      where: { idProduto: productId, EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds }},
+      where: {
+        idProduto: productId,
+        EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds },
+      },
       include: [
-        { model: Estabelecimento },
+        { model: Estabelecimento, include: [{ model: Endereco }] },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
 
@@ -21,11 +30,14 @@ const getProductById = async (productId, establishmentIds) => {
 const getProductByType = async (typeId, establishmentIds) => {
   try {
     const product = await Produto.findAll({
-      where: { tipoProdutoidTipoProduto: typeId, EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds } },
+      where: {
+        tipoProdutoidTipoProduto: typeId,
+        EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds },
+      },
       include: [
-        { model: Estabelecimento },
+        { model: Estabelecimento, include: [{ model: Endereco }] },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
 
@@ -36,15 +48,16 @@ const getProductByType = async (typeId, establishmentIds) => {
   }
 };
 
-
 const getProduct = async (establishmentIds) => {
   try {
     const products = await Produto.findAll({
-      where: { EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds } },
+      where: {
+        EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds },
+      },
       include: [
-        { model: Estabelecimento},
+        { model: Estabelecimento, include: [{ model: Endereco }] },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
     return products;
@@ -59,15 +72,18 @@ const getProductByEstablishment = async (establishmentId) => {
     const product = await Produto.findAll({
       where: { EstabelecimentoidEstabelecimento: establishmentId },
       include: [
-        { model: Estabelecimento },
+        { model: Estabelecimento, include: [{ model: Endereco }] },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
 
     return product;
   } catch (error) {
-    console.error("Error getting product by establishment from database:", error);
+    console.error(
+      "Error getting product by establishment from database:",
+      error
+    );
     throw error;
   }
 };
@@ -104,4 +120,12 @@ const deleteProduct = async (productId) => {
   }
 };
 
-module.exports = { getProductById, getProductByType, getProduct, getProductByEstablishment, createProduct, updateProduct, deleteProduct };
+module.exports = {
+  getProductById,
+  getProductByType,
+  getProduct,
+  getProductByEstablishment,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

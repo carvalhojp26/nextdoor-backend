@@ -18,6 +18,7 @@ const resgateCodigo = require("../redemptionCode/redemptionCodeModel")(sequelize
 const estadoResgate = require("../redemptionCode/redemptionStateModel")(sequelize, DataTypes);
 const realizacaoTarefa = require("../taskRealization/taskRealizationModel")(sequelize, DataTypes);
 const estadoRealizacaoTarefa = require("../taskRealization/taskRealizationStateModel")(sequelize, DataTypes);
+const feedbackAvaliacao = require("../feedback/feedbackModel")(sequelize, DataTypes);
 
 Utilizador.belongsTo(Endereco, {
   foreignKey: "EnderecoidEndereco",
@@ -76,13 +77,9 @@ Denuncia.belongsTo(Utilizador, {
   foreignKey: "UtilizadoridUtilizador",
 });
 
-Notificacao.belongsTo(Utilizador, {
-  foreignKey: "UtilizadoridUtilizador",
+Notificacao.belongsTo(realizacaoTarefa, {
+  foreignKey: "realizacaoTarefaidRealizacaoTarefa",
 });
-
-Notificacao.belongsTo(criacaoTarefa, {
-  foreignKey: "criacaoTarefaidTarefaCriada"
-})
 
 realizacaoTarefa.belongsTo(criacaoTarefa, {
    foreignKey: "criacaoTarefaidTarefaCriada"
@@ -101,6 +98,14 @@ Estabelecimento.belongsTo(Endereco, {
 Estabelecimento.belongsTo(Vizinhanca, {
   foreignKey: "VizinhancaidVizinhanca"
 });
+
+feedbackAvaliacao.belongsTo(criacaoTarefa, {
+  foreignKey: "criacaoTarefaidTarefaCriada"
+});
+
+feedbackAvaliacao.belongsTo(realizacaoTarefa, {
+  foreignKey: "RealizacaoTarefaidRealizacaoTarefa"
+})
 
 
 module.exports = {
@@ -123,4 +128,5 @@ module.exports = {
   estadoResgate,
   realizacaoTarefa,
   estadoRealizacaoTarefa,
+  feedbackAvaliacao
 };

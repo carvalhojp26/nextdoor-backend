@@ -37,7 +37,9 @@ const getUsersByNeighborhoodController = async (req, res) => {
     const neighborhoodId = findUser.VizinhançaidVizinhança;
 
     const result = await userService.getUsersByNeighborhood(neighborhoodId);
-    res.status(200).json({ message: "Users fetched successfully", users: result });
+    res
+      .status(200)
+      .json({ message: "Users fetched successfully", users: result });
   } catch (error) {
     res.status(500).json({ error: "User not found" });
   }
@@ -47,19 +49,29 @@ const getUserByIdController = async (req, res) => {
   const { userId } = req.params;
   const id = req.user.idUtilizador;
   try {
-    
     const findUser = await userService.getUser(id);
     const neighborhoodId = findUser.VizinhançaidVizinhança;
-    const user = await userService.getUserById(userId, neighborhoodId);
+    const result = await userService.getUserById(userId, neighborhoodId);
 
-    res.status(200).json({ message: "User fetched successfully", user: user });
+    res.status(200).json({ message: "User fetched successfully", user: result });
   } catch (error) {
     res.status(500).json({ error: "User not found" });
   }
 };
 
 const registerUserController = async (req, res) => {
-  const { password, nomeUtilizador,pontosUtilizador, dataNascimento, comprovativoResidencia, emailUtilizador, VizinhançaidVizinhança, EnderecoidEndereco, estadoUtilizadoridEstadoUtilizador, tipoUtilizadoridTipoUtilizador } = req.body;
+  const {
+    password,
+    nomeUtilizador,
+    dataNascimento,
+    comprovativoResidencia,
+    emailUtilizador,
+    VizinhançaidVizinhança,
+    EnderecoidEndereco,
+    estadoUtilizadoridEstadoUtilizador,
+    tipoUtilizadoridTipoUtilizador,
+  } = req.body;
+  const pontosUtilizador = 0;
   const hashedPassword = await bcrypt.hash(password, 10);
   if (
     !password ||
@@ -71,7 +83,8 @@ const registerUserController = async (req, res) => {
     !EnderecoidEndereco ||
     !estadoUtilizadoridEstadoUtilizador ||
     !tipoUtilizadoridTipoUtilizador ||
-    pontosUtilizador === undefined || pontosUtilizador === null
+    pontosUtilizador === undefined ||
+    pontosUtilizador === null
   ) {
     return res.status(400).json({ error: "Missing required fields." });
   }
@@ -86,7 +99,7 @@ const registerUserController = async (req, res) => {
       VizinhançaidVizinhança,
       EnderecoidEndereco,
       estadoUtilizadoridEstadoUtilizador,
-      tipoUtilizadoridTipoUtilizador
+      tipoUtilizadoridTipoUtilizador,
     });
     res
       .status(201)
@@ -120,7 +133,7 @@ const loginUserController = async (req, res) => {
         idTipoUtilizador: user.tipoUtilizadoridTipoUtilizador,
       },
       process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "3h" }
     );
 
     res.status(200).json({

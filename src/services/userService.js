@@ -45,9 +45,7 @@ const getUser = async (userId) => {
 const getUserById = async (userId, neighborhoodId) => {
   try {
     const user = await Utilizador.findOne({
-      where: { idUtilizador: userId,
-        VizinhançaidVizinhança: neighborhoodId
-       },
+      where: { idUtilizador: userId, VizinhançaidVizinhança: neighborhoodId },
       include: [
         { model: Endereco },
         { model: Vizinhanca },
@@ -82,15 +80,14 @@ const getUsersByNeighborhood = async (neighborhoodId) => {
   }
 };
 
-
 const registerUser = async (body) => {
-  	try {
-		const user = await Utilizador.create(body);
-		return user;
-	} catch (error) {
-		console.error("Error adding user in database: ", error);
-    throw error
-	};
+  try {
+    const user = await Utilizador.create(body);
+    return user;
+  } catch (error) {
+    console.error("Error adding user in database: ", error);
+    throw error;
+  }
 };
 
 const updateUser = async (userId, body) => {
@@ -107,7 +104,9 @@ const updateUser = async (userId, body) => {
 
 const deleteUser = async (userId) => {
   try {
-    const deleted = await Utilizador.destroy({ where: { idUtilizador: userId } });
+    const deleted = await Utilizador.destroy({
+      where: { idUtilizador: userId },
+    });
     return deleted;
   } catch (error) {
     console.error("Error deleting user in database:", error);
@@ -115,4 +114,12 @@ const deleteUser = async (userId) => {
   }
 };
 
-module.exports = { getAllUsers ,getUser, getUserById, getUsersByNeighborhood, registerUser, updateUser, deleteUser };
+module.exports = {
+  getAllUsers,
+  getUser,
+  getUserById,
+  getUsersByNeighborhood,
+  registerUser,
+  updateUser,
+  deleteUser,
+};
