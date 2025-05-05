@@ -4,6 +4,7 @@ const {
   estadoProduto,
   tipoProduto,
   Endereco,
+  Vizinhanca,
 } = require("../models/association/associations");
 const { Op } = require("sequelize");
 const getProductById = async (productId, establishmentIds) => {
@@ -67,7 +68,28 @@ const getProduct = async (establishmentIds) => {
   }
 };
 
-const getProductByEstablishment = async (establishmentId) => {
+const getProductByEstablishment = async (establishmentId, neighborhoodId) => {
+  try {
+    const product = await Produto.findAll({
+      where: { EstabelecimentoidEstabelecimento: establishmentId },
+      include: [
+        { model: Estabelecimento, where: { VizinhancaidVizinhanca: neighborhoodId}, include: [{ model: Endereco }] },
+        { model: estadoProduto },
+        { model: tipoProduto },
+      ],
+    });
+
+    return product;
+  } catch (error) {
+    console.error(
+      "Error getting product by establishment from database:",
+      error
+    );
+    throw error;
+  }
+};
+
+const getProductByAllEstablishment = async (establishmentId) => {
   try {
     const product = await Produto.findAll({
       where: { EstabelecimentoidEstabelecimento: establishmentId },
@@ -125,6 +147,7 @@ module.exports = {
   getProductByType,
   getProduct,
   getProductByEstablishment,
+  getProductByAllEstablishment,
   createProduct,
   updateProduct,
   deleteProduct,
