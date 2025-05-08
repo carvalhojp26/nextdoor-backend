@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const {
   criacaoTarefa,
   Utilizador,
@@ -28,7 +29,7 @@ const getAllTaskCreation = async () => {
 const getTasksCreation = async (userId) => {
   try {
     const tasks = await criacaoTarefa.findAll({
-      where: { UtilizadoridUtilizador: userId },
+      where: { UtilizadoridUtilizador: userId, estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
       include: [
         { model: Utilizador, include: [{ model: Endereco }] },
         { model: categoriaTarefa },
@@ -45,7 +46,7 @@ const getTasksCreation = async (userId) => {
 const getTaskCreationById = async (taskCreationId, neighborhoodId) => {
   try {
     const task = await criacaoTarefa.findOne({
-      where: { idTarefaCriada: taskCreationId },
+      where: { idTarefaCriada: taskCreationId, estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
       include: [
         {
           model: Utilizador,
@@ -69,6 +70,7 @@ const getTaskCreationById = async (taskCreationId, neighborhoodId) => {
 const getTasksCreationByNeighborhood = async (neighborhoodId) => {
   try {
     const tasks = await criacaoTarefa.findAll({
+      where: { estadoCriacaoTarefaidEstadoCriacaoTarefa: 1},
       include: [
         {
           model: Utilizador,
@@ -78,7 +80,7 @@ const getTasksCreationByNeighborhood = async (neighborhoodId) => {
           include: [{ model: Endereco }],
         },
         { model: categoriaTarefa },
-        { model: estadoCriacaoTarefa },
+        { model: estadoCriacaoTarefa }
       ],
     });
 
@@ -92,7 +94,7 @@ const getTasksCreationByNeighborhood = async (neighborhoodId) => {
 const getTasksCreationByCategory = async (categoryId, neighborhoodId) => {
   try {
     const task = await criacaoTarefa.findAll({
-      where: { categoriaTarefaidCategoriaTarefa: categoryId },
+      where: { categoriaTarefaidCategoriaTarefa: categoryId, estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
       include: [
         {
           model: Utilizador,
@@ -123,10 +125,10 @@ const createTaskCreation = async (data) => {
   }
 };
 
-const updateTaskCreation = async (taskCreationId, updateFields, userId) => {
+const updateTaskCreation = async (taskCreationId, updateFields) => {
   try {
     const [updatedRows] = await criacaoTarefa.update(updateFields, {
-      where: { idTarefaCriada: taskCreationId, UtilizadoridUtilizador: userId },
+      where: { idTarefaCriada: taskCreationId},
     });
     return updatedRows;
   } catch (error) {

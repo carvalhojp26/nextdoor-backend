@@ -3,7 +3,6 @@ const {
   criacaoTarefa,
   Utilizador,
   estadoRealizacaoTarefa,
-  Vizinhanca,
 } = require("../models/association/associations");
 
 const getTasksRealization = async (userId) => {
