@@ -135,7 +135,6 @@ const createTaskCreationController = async (req, res) => {
 const updateTaskCreationController = async (req, res) => {
   const { taskCreationId } = req.params;
   const updateFields = req.body;
-  const userId = req.user.idUtilizador;
 
   try {
     if (updateFields.dataInicio && updateFields.dataFim) {
@@ -156,7 +155,6 @@ const updateTaskCreationController = async (req, res) => {
     const updated = await taskCreationService.updateTaskCreation(
       taskCreationId,
       updateFields,
-      userId
     );
 
     if (updated === 0) {
