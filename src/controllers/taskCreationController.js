@@ -95,6 +95,10 @@ const createTaskCreationController = async (req, res) => {
     return res.status(400).json({ error: "Missing required fields." });
   }
 
+  if (nomeTarefa.length > 100) {
+    return res.status(400).json({ error: "Task name needs to have less than 100 characters" });
+  }
+
   const startDate = new Date(dataInicio);
   const endDate = new Date(dataFim);
 
