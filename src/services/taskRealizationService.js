@@ -55,6 +55,18 @@ const createTaskRealization = async (data) => {
   }
 };
 
+const updateTaskRealization = async (taskRealizationId, updatedFields, userId) => {
+  try {
+    const [updatedRows] = await realizacaoTarefa.update(updatedFields, {
+      where: { idRealizacaoTarefa: taskRealizationId, UtilizadoridUtilizador: userId },
+    });
+    return updatedRows;
+  } catch (error) {
+    console.error("Error updating task creation:", error);
+    throw error;
+  }
+};
+
 const deleteTaskRealization = async (taskRealizationId, userId) => {
   try {
     const deleted = await realizacaoTarefa.destroy({
@@ -75,5 +87,6 @@ module.exports = {
   getTasksRealization,
   getTasksRealizationByUser,
   createTaskRealization,
+  updateTaskRealization,
   deleteTaskRealization,
 };

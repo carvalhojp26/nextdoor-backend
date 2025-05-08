@@ -4,8 +4,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true 
+  origin: 'http://localhost:5173', //Isto permite que apenas requisições vindas do frontend que corre em localhost:5173
+  credentials: true //permite que a requisição envie cookies, headers de autenticação, tokens ou sessões, uu seja, permite enviar/receber cookies entre o frontend e backend, bom para a autenticação
 }));
 
 

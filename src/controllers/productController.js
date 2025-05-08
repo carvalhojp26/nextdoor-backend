@@ -1,5 +1,4 @@
 const productService = require("../services/productService");
-const establishmentService = require("../services/establishmentService");
 const userService = require("../services/userService");
 
 const getProductByIdController = async (req, res) => {
@@ -8,13 +7,9 @@ const getProductByIdController = async (req, res) => {
   try {
     const user = await userService.getUser(userId);
     const neighborhoodId = user.VizinhançaidVizinhança;
-    const establishments = await establishmentService.getEstablishments(
-      neighborhoodId
-    );
-    const establishmentIds = establishments.map((e) => e.idEstabelecimento);
     const product = await productService.getProductById(
       productId,
-      establishmentIds
+      neighborhoodId
     );
 
     res
@@ -31,13 +26,9 @@ const getProductByTypeController = async (req, res) => {
   try {
     const user = await userService.getUser(userId);
     const neighborhoodId = user.VizinhançaidVizinhança;
-    const establishments = await establishmentService.getEstablishments(
-      neighborhoodId
-    );
-    const establishmentIds = establishments.map((e) => e.idEstabelecimento);
     const products = await productService.getProductByType(
       typeId,
-      establishmentIds
+      neighborhoodId
     );
     res
       .status(200)
@@ -53,11 +44,7 @@ const getProductController = async (req, res) => {
   try {
     const user = await userService.getUser(userId);
     const neighborhoodId = user.VizinhançaidVizinhança;
-    const establishments = await establishmentService.getEstablishments(
-      neighborhoodId
-    );
-    const establishmentIds = establishments.map((e) => e.idEstabelecimento);
-    const result = await productService.getProduct(establishmentIds);
+    const result = await productService.getProduct(neighborhoodId);
 
     res
       .status(200)
