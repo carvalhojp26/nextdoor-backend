@@ -21,11 +21,9 @@
 
   const getTasksRealizationByUserController = async (req, res) => {
     const { userId } = req.params;
-    const id = req.user.idUtilizador;
     try {
-      const allUsers = await userService.getAllUsers();
-      const findUser = allUsers.find((u) => u.idUtilizador === id);
-      const neighborhoodId = findUser.VizinhançaidVizinhança;
+      const user = await userService.getUser(userId);
+      const neighborhoodId = user.VizinhançaidVizinhança;
       const result = await taskRealizationService.getTasksRealizationByUser(
         userId,
         neighborhoodId
@@ -42,7 +40,6 @@
     const dataRealizacao = Date();
     const {
       criacaoTarefaidTarefaCriada,
-      estadoRealizacaoTarefaidEstadoRealizacaoTarefa,
     } = req.body;
     
     try {
@@ -50,7 +47,7 @@
       const user = await userService.getUser(userId);
       const neighborhoodId = user.VizinhançaidVizinhança;
       const taskCreation = await taskCreationService.getTaskCreationById(criacaoTarefaidTarefaCriada, neighborhoodId);
-      const taskCreatorId = await taskCreation.UtilizadoridUtilizador;
+      const taskCreatorId = taskCreation.UtilizadoridUtilizador;
 
       if(req.user.idUtilizador == taskCreatorId)
       {
@@ -61,7 +58,7 @@
         dataRealizacao,
         criacaoTarefaidTarefaCriada,
         UtilizadoridUtilizador: userId,
-        estadoRealizacaoTarefaidEstadoRealizacaoTarefa,
+        estadoRealizacaoTarefaidEstadoRealizacaoTarefa: 3, //Colocar estado em execução
       });
       res
       .status(201)

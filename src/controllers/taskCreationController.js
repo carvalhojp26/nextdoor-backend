@@ -81,37 +81,35 @@ const createTaskCreationController = async (req, res) => {
     dataInicio,
     dataFim,
     categoriaTarefaidCategoriaTarefa,
-    estadoCriacaoTarefaidEstadoCriacaoTarefa,
     descricaoTarefa,
   } = req.body;
 
   const userId = req.user.idUtilizador;
-
+  
   if (
     !nomeTarefa ||
-    !categoriaTarefaidCategoriaTarefa ||
-    !estadoCriacaoTarefaidEstadoCriacaoTarefa
+    !categoriaTarefaidCategoriaTarefa
   ) {
     return res.status(400).json({ error: "Missing required fields." });
   }
-
+  
   if (nomeTarefa.length > 100) {
     return res.status(400).json({ error: "Task name needs to have less than 100 characters" });
   }
-
+  
   const startDate = new Date(dataInicio);
   const endDate = new Date(dataFim);
-
+  
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
     return res.status(400).json({ error: "Invalid date format." });
   }
-
+  
   if (startDate > endDate) {
     return res
-      .status(400)
-      .json({ error: "Start date must be before or equal to end date." });  
+    .status(400)
+    .json({ error: "Start date must be before or equal to end date." });  
   }
-
+  
   try {
     const newTask = await taskCreationService.createTaskCreation({
       nomeTarefa,
@@ -120,7 +118,6 @@ const createTaskCreationController = async (req, res) => {
       descricaoTarefa,
       UtilizadoridUtilizador: userId,
       categoriaTarefaidCategoriaTarefa,
-      estadoCriacaoTarefaidEstadoCriacaoTarefa,
     });
 
     res
@@ -129,6 +126,7 @@ const createTaskCreationController = async (req, res) => {
   } catch (error) {
     console.error("Error creating task:", error);
     res.status(500).json({ error: "Error creating task" });
+
   }
 };
 

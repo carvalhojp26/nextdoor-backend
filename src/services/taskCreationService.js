@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const {
   criacaoTarefa,
   Utilizador,
@@ -7,6 +6,8 @@ const {
   Endereco,
 } = require("../models/association/associations");
 
+const userService = require("./userService");
+const categoryService = require("../services/categoryService");
 //Admin
 const getAllTaskCreation = async () => {
   try {
@@ -29,7 +30,10 @@ const getAllTaskCreation = async () => {
 const getTasksCreation = async (userId) => {
   try {
     const tasks = await criacaoTarefa.findAll({
-      where: { UtilizadoridUtilizador: userId, estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
+      where: {
+        UtilizadoridUtilizador: userId,
+        estadoCriacaoTarefaidEstadoCriacaoTarefa: 1,
+      },
       include: [
         { model: Utilizador, include: [{ model: Endereco }] },
         { model: categoriaTarefa },
@@ -46,7 +50,10 @@ const getTasksCreation = async (userId) => {
 const getTaskCreationById = async (taskCreationId, neighborhoodId) => {
   try {
     const task = await criacaoTarefa.findOne({
-      where: { idTarefaCriada: taskCreationId, estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
+      where: {
+        idTarefaCriada: taskCreationId,
+        estadoCriacaoTarefaidEstadoCriacaoTarefa: 1,
+      },
       include: [
         {
           model: Utilizador,
@@ -70,7 +77,7 @@ const getTaskCreationById = async (taskCreationId, neighborhoodId) => {
 const getTasksCreationByNeighborhood = async (neighborhoodId) => {
   try {
     const tasks = await criacaoTarefa.findAll({
-      where: { estadoCriacaoTarefaidEstadoCriacaoTarefa: 1},
+      where: { estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
       include: [
         {
           model: Utilizador,
@@ -80,7 +87,7 @@ const getTasksCreationByNeighborhood = async (neighborhoodId) => {
           include: [{ model: Endereco }],
         },
         { model: categoriaTarefa },
-        { model: estadoCriacaoTarefa }
+        { model: estadoCriacaoTarefa },
       ],
     });
 
@@ -94,7 +101,10 @@ const getTasksCreationByNeighborhood = async (neighborhoodId) => {
 const getTasksCreationByCategory = async (categoryId, neighborhoodId) => {
   try {
     const task = await criacaoTarefa.findAll({
-      where: { categoriaTarefaidCategoriaTarefa: categoryId, estadoCriacaoTarefaidEstadoCriacaoTarefa: 1 },
+      where: {
+        categoriaTarefaidCategoriaTarefa: categoryId,
+        estadoCriacaoTarefaidEstadoCriacaoTarefa: 1,
+      },
       include: [
         {
           model: Utilizador,
@@ -116,19 +126,40 @@ const getTasksCreationByCategory = async (categoryId, neighborhoodId) => {
 };
 
 const createTaskCreation = async (data) => {
-  try {
-    const newTask = await criacaoTarefa.create(data);
-    return newTask;
-  } catch (error) {
-    console.error("Error creating task creation:", error);
-    throw error;
+  const { UtilizadoridUtilizador, categoriaTarefaidCategoriaTarefa, ...rest } =
+    data;
+
+  const user = await userService.getUser(UtilizadoridUtilizador);
+
+  const categoria = await categoryService.getCategoryById(
+    categoriaTarefaidCategoriaTarefa
+  );
+  if (!categoria) throw new Error("Task category not found");
+
+  const necessaryPoints = categoria.pontosCategoria;
+
+  if (user.pontosUtilizador < necessaryPoints) {
+    throw new Error("Utilizador não tem pontos suficientes");
   }
+
+  const updated = await userService.updateUser(UtilizadoridUtilizador, {
+    pontosUtilizador: user.pontosUtilizador - necessaryPoints,
+  });
+  if (!updated) throw new Error("Erro ao atualizar pontos do utilizador");
+
+  const newTask = await criacaoTarefa.create({
+    ...rest,
+    UtilizadoridUtilizador,
+    categoriaTarefaidCategoriaTarefa,
+    estadoCriacaoTarefaidEstadoCriacaoTarefa: 1,
+  });
+  return newTask;
 };
 
 const updateTaskCreation = async (taskCreationId, updateFields) => {
   try {
     const [updatedRows] = await criacaoTarefa.update(updateFields, {
-      where: { idTarefaCriada: taskCreationId},
+      where: { idTarefaCriada: taskCreationId },
     });
     return updatedRows;
   } catch (error) {

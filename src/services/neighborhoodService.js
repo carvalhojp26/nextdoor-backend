@@ -2,7 +2,7 @@ const { Vizinhanca } = require("../models/association/associations");
 
 const getNeighborhood = async () => {
   try {
-    const neighborhoods = await Vizinhanca.findAll({});
+    const neighborhoods = await Vizinhanca.findAll();
     return neighborhoods;
   } catch (error) {
     console.error("Error getting neighborhoods in database:", error);
