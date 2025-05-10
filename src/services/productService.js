@@ -9,7 +9,7 @@ const getProductById = async (productId, neighborhoodId) => {
   try {
     const product = await Produto.findOne({
       where: {
-        idProduto: productId,
+        idProduto: productId, estadoProdutoidEstadoProduto: 1
       },
       include: [
         {
@@ -32,7 +32,7 @@ const getProductById = async (productId, neighborhoodId) => {
 const getProductByType = async (typeId, neighborhoodId) => {
   try {
     const product = await Produto.findAll({
-      where: { tipoProdutoidTipoProduto: typeId },
+      where: { tipoProdutoidTipoProduto: typeId, estadoProdutoidEstadoProduto: 1 },
       include: [
         {
           model: Estabelecimento,
@@ -54,10 +54,11 @@ const getProductByType = async (typeId, neighborhoodId) => {
 const getProduct = async (neighborhoodId) => {
   try {
     const products = await Produto.findAll({
+      where: { estadoProdutoidEstadoProduto: 1 },
       include: [
         {
           model: Estabelecimento,
-          where: { VizinhancaidVizinhanca: neighborhoodId },
+          where: { VizinhancaidVizinhanca: neighborhoodId},
           include: [{ model: Endereco }],
         },
         { model: estadoProduto },
@@ -73,8 +74,8 @@ const getProduct = async (neighborhoodId) => {
 
 const getProductByEstablishment = async (establishmentId, neighborhoodId) => {
   try {
-    const product = await Produto.findOne({
-      where: { EstabelecimentoidEstabelecimento: establishmentId },
+    const product = await Produto.findAll({
+      where: { EstabelecimentoidEstabelecimento: establishmentId, estadoProdutoidEstadoProduto: 1 },
       include: [
         {
           model: Estabelecimento,
@@ -98,7 +99,7 @@ const getProductByEstablishment = async (establishmentId, neighborhoodId) => {
 
 const getProductByAllEstablishment = async (establishmentId) => {
   try {
-    const product = await Produto.findOne({
+    const product = await Produto.findAll({
       where: { EstabelecimentoidEstabelecimento: establishmentId },
       include: [
         { model: Estabelecimento, include: [{ model: Endereco }] },

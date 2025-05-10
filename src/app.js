@@ -23,6 +23,7 @@ const redemptionCodeRoutes = require("./routes/redemptionCodeRoutes");
 const taskRealizationRoutes = require("./routes/taskRealizationRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 app.use(express.json());
 
@@ -38,6 +39,7 @@ app.use("/api/redemptionCodes", redemptionCodeRoutes);
 app.use("/api/taskRealizations", taskRealizationRoutes);
 app.use("/api/establishments", establishmentRoutes);
 app.use("/api/feedbacks", feedbackRoutes);
+app.use("/api/categories", categoryRoutes);
 
 try {
   db.sequelize.authenticate();
