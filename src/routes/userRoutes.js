@@ -11,7 +11,7 @@ router.delete("/delete/:userId", authenticateToken, sqlInjectionGuard, userContr
 router.get("/profile", authenticateToken, sqlInjectionGuard, userController.getUserController); //Vizinho poderá ver o seu próprio perfil
 router.patch("/edit", sqlInjectionGuard, authenticateToken, userController.updateUserController); //O Vizinho  poderá editar o seu perfil
 router.get("/neighborhood", authenticateToken, sqlInjectionGuard, userController.getUsersByNeighborhoodController); //O vizinho poderá ver apenas os seus vizinhos
-router.get("/neighborhood/:userId", sqlInjectionGuard, authenticateToken, userController.getUserByIdController); //o vizinho poderá selecionar um vizinho seu
+router.get("/:userId", sqlInjectionGuard, authenticateToken, userController.getUserByIdController); //o vizinho poderá selecionar um vizinho seu
 router.post("/register", sqlInjectionGuard, userController.registerUserController);
 router.post("/login", sqlInjectionGuard, userController.loginUserController);
 
