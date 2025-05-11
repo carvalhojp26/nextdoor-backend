@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
           },
           mensagem: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
           },
           dataEnvio: {
             type: DataTypes.DATEONLY,

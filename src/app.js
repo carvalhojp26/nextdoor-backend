@@ -24,6 +24,7 @@ const taskRealizationRoutes = require("./routes/taskRealizationRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const productTypesRoutes = require("./routes/productTypesRoutes")
 
 app.use(express.json());
 
@@ -40,6 +41,7 @@ app.use("/api/taskRealizations", taskRealizationRoutes);
 app.use("/api/establishments", establishmentRoutes);
 app.use("/api/feedbacks", feedbackRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use('/api/product-types', productTypesRoutes)
 
 try {
   db.sequelize.authenticate();

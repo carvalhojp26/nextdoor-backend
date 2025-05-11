@@ -8,6 +8,7 @@ router.get('/establishments/:establishmentId', sqlInjectionGuard, authenticateTo
 router.delete("/:productId", sqlInjectionGuard, authenticateToken, productController.deleteProductController);
 router.post('/', sqlInjectionGuard, authenticateToken, productController.createProductController);
 router.patch('/:productId', sqlInjectionGuard, authenticateToken, productController.updateProductController);
+
 //Neighboors
 router.get('/establishment/:establishmentId', sqlInjectionGuard, authenticateToken, productController.getProductByEstablsihmentController); //Apenas acede aos produtos do estabelecimento escolhido da sua vizinhança
 router.get('/type/:typeId', sqlInjectionGuard, authenticateToken, productController.getProductByTypeController);

@@ -3,6 +3,8 @@ const {
   criacaoTarefa,
   Notificacao,
   realizacaoTarefa,
+  estadoRealizacaoTarefa,
+  categoriaTarefa,
 } = require("../models/association/associations");
 
 const getNotification = async (userId) => {
@@ -11,7 +13,7 @@ const getNotification = async (userId) => {
       include: [
         {
           model: realizacaoTarefa,
-          required: true, // INNER JOIN (garante que tem realizacao)
+          required: true,
           include: [
             {
               model: criacaoTarefa,
@@ -19,10 +21,16 @@ const getNotification = async (userId) => {
               where: {
                 UtilizadoridUtilizador: userId,
               },
+              include: [
+                { model: categoriaTarefa },
+                { model: Utilizador },
+              ],
+            },
+            {
+              model: estadoRealizacaoTarefa,
             },
             {
               model: Utilizador,
-              attributes: ["idUtilizador", "nomeUtilizador"],
             },
           ],
         },

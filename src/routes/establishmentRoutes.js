@@ -8,7 +8,7 @@ const authenticateToken = require("../middlewares/authenticateToken");
 router.get("/neighborhood/:neighborhoodId", sqlInjectionGuard, authenticateToken, establishmentController.getEstablishmentsByNeighborhoodController); //Um admin poderá ver os establecimentos por vizinhança
 router.post("/", sqlInjectionGuard, authenticateToken, establishmentController.createEstablishmentController);
 router.patch("/:establishmentId", sqlInjectionGuard, authenticateToken, establishmentController.updateEstablishmentController);
-router.delete("/", sqlInjectionGuard, authenticateToken, establishmentController.deleteEstablishmentController);
+router.delete("/:establishmentId", sqlInjectionGuard, authenticateToken, establishmentController.deleteEstablishmentController);
 //Neighboors
 router.get("/", sqlInjectionGuard, authenticateToken, establishmentController.getEstablishmentsController); //Um vizinho poderá ver os establecimentos associados á sua viziznhança
 router.get("/:establishmentId", sqlInjectionGuard, authenticateToken, establishmentController.getEstablishmentByIdController);
