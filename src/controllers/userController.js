@@ -67,8 +67,6 @@ const registerUserController = async (req, res) => {
     !dataNascimento ||
     !comprovativoResidencia ||
     !emailUtilizador ||
-    !VizinhançaidVizinhança ||
-    !EnderecoidEndereco ||
     !estadoUtilizadoridEstadoUtilizador ||
     !tipoUtilizadoridTipoUtilizador ||
     pontosUtilizador === undefined || pontosUtilizador === null

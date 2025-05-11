@@ -31,6 +31,22 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      VizinhançaidVizinhança: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: "Vizinhanca",
+          key: "idVizinhanca",
+        },
+      },
+      EnderecoidEndereco: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: "Endereco",
+          key: "idEndereco",
+        },
+      },
     },
     {
       tableName: "Utilizador",
