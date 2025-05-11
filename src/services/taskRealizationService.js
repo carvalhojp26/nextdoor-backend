@@ -3,12 +3,44 @@ const {
   criacaoTarefa,
   Utilizador,
   estadoRealizacaoTarefa,
+  categoriaTarefa,
+  Endereco,
 } = require("../models/association/associations");
 
-const getTasksRealization = async (userId) => {
+const getTasksInRealization = async (userId) => {
   try {
     const tasks = await realizacaoTarefa.findAll({
-      where: { UtilizadoridUtilizador: userId },
+      where: {
+        UtilizadoridUtilizador: userId,
+        estadoRealizacaoTarefaidEstadoRealizacaoTarefa: 3,
+      }, //em execução/realização
+      include: [
+        {
+          model: criacaoTarefa,
+          include: [
+            { model: categoriaTarefa },
+            { model: Utilizador, include: [{ model: Endereco }] },
+          ],
+        },
+        { model: estadoRealizacaoTarefa },
+        { model: Utilizador },
+      ],
+    });
+
+    return tasks;
+  } catch (error) {
+    console.error("Error fetching tasks realizations in database: ", error);
+    throw error;
+  }
+};
+
+const getTasksRealizeted = async (userId) => {
+  try {
+    const tasks = await realizacaoTarefa.findAll({
+      where: {
+        UtilizadoridUtilizador: userId,
+        estadoRealizacaoTarefaidEstadoRealizacaoTarefa: 4,
+      }, //tarefas concluídas
       include: [
         { model: criacaoTarefa },
         { model: estadoRealizacaoTarefa },
@@ -54,10 +86,17 @@ const createTaskRealization = async (data) => {
   }
 };
 
-const updateTaskRealization = async (taskRealizationId, updatedFields, userId) => {
+const updateTaskRealization = async (
+  taskRealizationId,
+  updatedFields,
+  userId
+) => {
   try {
     const [updatedRows] = await realizacaoTarefa.update(updatedFields, {
-      where: { idRealizacaoTarefa: taskRealizationId, UtilizadoridUtilizador: userId },
+      where: {
+        idRealizacaoTarefa: taskRealizationId,
+        UtilizadoridUtilizador: userId,
+      },
     });
     return updatedRows;
   } catch (error) {
@@ -83,7 +122,8 @@ const deleteTaskRealization = async (taskRealizationId, userId) => {
 };
 
 module.exports = {
-  getTasksRealization,
+  getTasksInRealization,
+  getTasksRealizeted,
   getTasksRealizationByUser,
   createTaskRealization,
   updateTaskRealization,

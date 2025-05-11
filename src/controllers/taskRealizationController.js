@@ -2,16 +2,33 @@
   const userService = require("../services/userService");
   const taskCreationService = require("../services/taskCreationService");
 
-  const getTasksRealizationController = async (req, res) => {
+  const getTasksInRealizationController = async (req, res) => {
     const userId = req.user.idUtilizador;
     try {
-      const result = await taskRealizationService.getTasksRealization(
+      const result = await taskRealizationService.getTasksInRealization(
         userId
       );
       res
         .status(200)
         .json({
-          message: "Tasks performed fetched sucessfully",
+          message: "Tasks in execution fetched sucessfully",
+          task: result,
+        });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch performed tasks" });
+    }
+  };
+
+    const getTasksRealizatedController = async (req, res) => {
+    const userId = req.user.idUtilizador;
+    try {
+      const result = await taskRealizationService.getTasksRealizeted(
+        userId
+      );
+      res
+        .status(200)
+        .json({
+          message: "Tasks conclued fetched sucessfully",
           task: result,
         });
     } catch (error) {
@@ -43,7 +60,7 @@
     } = req.body;
     
     try {
-      //Verificação para que o utilizador logado não possa realizar as suas tarefas.
+      //Verificação para que o utilizador logado não possa realizar as suas tarefas e apenas possa realizar uma tarefa de cada vez
       const user = await userService.getUser(userId);
       const neighborhoodId = user.VizinhançaidVizinhança;
       const taskCreation = await taskCreationService.getTaskCreationById(criacaoTarefaidTarefaCriada, neighborhoodId);
@@ -111,7 +128,8 @@
   };
 
   module.exports = {
-    getTasksRealizationController,
+    getTasksInRealizationController,
+    getTasksRealizatedController,
     getTasksRealizationByUserController,
     createTaskRealizationController,
     updateTaskRealizationController,

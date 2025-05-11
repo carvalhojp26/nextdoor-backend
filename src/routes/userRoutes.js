@@ -9,7 +9,7 @@ router.get("/all", authenticateToken, sqlInjectionGuard, userController.getAllUs
 router.delete("/delete/:userId", authenticateToken, sqlInjectionGuard, userController.deleteUserController);
 //Vizinhos
 router.get("/profile", authenticateToken, sqlInjectionGuard, userController.getUserController); //Vizinho poderá ver o seu próprio perfil
-router.patch("/edit", sqlInjectionGuard, authenticateToken, userController.updateUserController); //O Vizinho  poderá editar o seu perfil
+router.patch("/edit/:userId", sqlInjectionGuard, authenticateToken, userController.updateUserController); //O Vizinho  poderá editar o seu perfil
 router.get("/neighborhood", authenticateToken, sqlInjectionGuard, userController.getUsersByNeighborhoodController); //O vizinho poderá ver apenas os seus vizinhos
 router.get("/:userId", sqlInjectionGuard, authenticateToken, userController.getUserByIdController); //o vizinho poderá selecionar um vizinho seu
 router.post("/register", sqlInjectionGuard, userController.registerUserController);

@@ -71,6 +71,15 @@ const registerUserController = async (req, res) => {
   } = req.body;
   const pontosUtilizador = 0;
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  const allUsers = await userService.getAllUsers();
+  const user = allUsers.find((u) => u.emailUtilizador === emailUtilizador);
+  if (user) {
+    return res.status(400).json({ error : "Already a user with that email"});
+  }
+
+
+
   if (
     !password ||
     !nomeUtilizador ||
@@ -150,11 +159,10 @@ const loginUserController = async (req, res) => {
 
 const updateUserController = async (req, res) => {
   try {
-    const userId = req.user.idUtilizador;
+    const userId = parseInt(req.params.userId, 10);
+
     const result = await userService.updateUser(userId, req.body);
-    res
-      .status(200)
-      .json({ message: "User updated successfully", user: result });
+    res.status(200).json({ message: "User updated successfully", user: result });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

@@ -139,13 +139,13 @@ const createTaskCreation = async (data) => {
   const necessaryPoints = categoria.pontosCategoria;
 
   if (user.pontosUtilizador < necessaryPoints) {
-    throw new Error("Utilizador não tem pontos suficientes");
+    throw new Error("User dont have enough points");
   }
 
   const updated = await userService.updateUser(UtilizadoridUtilizador, {
     pontosUtilizador: user.pontosUtilizador - necessaryPoints,
   });
-  if (!updated) throw new Error("Erro ao atualizar pontos do utilizador");
+  if (!updated) throw new Error("Error updating user points");
 
   const newTask = await criacaoTarefa.create({
     ...rest,
