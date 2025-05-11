@@ -47,11 +47,9 @@ const getUsersByNeighborhoodController = async (req, res) => {
 
 const getUserByIdController = async (req, res) => {
   const { userId } = req.params;
-  const id = req.user.idUtilizador;
+  console.log(userId)
   try {
-    const findUser = await userService.getUser(id);
-    const neighborhoodId = findUser.VizinhançaidVizinhança;
-    const result = await userService.getUserById(userId, neighborhoodId);
+    const result = await userService.getUser(userId);
 
     res.status(200).json({ message: "User fetched successfully", user: result });
   } catch (error) {
@@ -88,8 +86,6 @@ const registerUserController = async (req, res) => {
     !dataNascimento ||
     !comprovativoResidencia ||
     !emailUtilizador ||
-    !VizinhançaidVizinhança ||
-    !EnderecoidEndereco ||
     !estadoUtilizadoridEstadoUtilizador ||
     !tipoUtilizadoridTipoUtilizador ||
     pontosUtilizador === undefined ||
