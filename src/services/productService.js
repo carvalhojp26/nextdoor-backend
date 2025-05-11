@@ -1,13 +1,24 @@
-const { Produto, Estabelecimento, estadoProduto, tipoProduto} = require("../models/association/associations");
-const { Op } = require("sequelize");
-const getProductById = async (productId, establishmentIds) => {
+const {
+  Produto,
+  Estabelecimento,
+  estadoProduto,
+  tipoProduto,
+  Endereco,
+} = require("../models/association/associations");
+const getProductById = async (productId, neighborhoodId) => {
   try {
     const product = await Produto.findOne({
-      where: { idProduto: productId, EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds }},
+      where: {
+        idProduto: productId, estadoProdutoidEstadoProduto: 1
+      },
       include: [
-        { model: Estabelecimento },
+        {
+          model: Estabelecimento,
+          where: { VizinhancaidVizinhanca: neighborhoodId },
+          include: [{ model: Endereco }],
+        },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
 
@@ -18,14 +29,18 @@ const getProductById = async (productId, establishmentIds) => {
   }
 };
 
-const getProductByType = async (typeId, establishmentIds) => {
+const getProductByType = async (typeId, neighborhoodId) => {
   try {
     const product = await Produto.findAll({
-      where: { tipoProdutoidTipoProduto: typeId, EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds } },
+      where: { tipoProdutoidTipoProduto: typeId, estadoProdutoidEstadoProduto: 1 },
       include: [
-        { model: Estabelecimento },
+        {
+          model: Estabelecimento,
+          where: { VizinhancaidVizinhanca: neighborhoodId },
+          include: [{ model: Endereco }],
+        },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
 
@@ -36,15 +51,18 @@ const getProductByType = async (typeId, establishmentIds) => {
   }
 };
 
-
-const getProduct = async (establishmentIds) => {
+const getProduct = async (neighborhoodId) => {
   try {
     const products = await Produto.findAll({
-      where: { EstabelecimentoidEstabelecimento: { [Op.in]: establishmentIds } },
+      where: { estadoProdutoidEstadoProduto: 1 },
       include: [
-        { model: Estabelecimento},
+        {
+          model: Estabelecimento,
+          where: { VizinhancaidVizinhanca: neighborhoodId},
+          include: [{ model: Endereco }],
+        },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
     return products;
@@ -54,20 +72,48 @@ const getProduct = async (establishmentIds) => {
   }
 };
 
-const getProductByEstablishment = async (establishmentId) => {
+const getProductByEstablishment = async (establishmentId, neighborhoodId) => {
   try {
     const product = await Produto.findAll({
-      where: { EstabelecimentoidEstabelecimento: establishmentId },
+      where: { EstabelecimentoidEstabelecimento: establishmentId, estadoProdutoidEstadoProduto: 1 },
       include: [
-        { model: Estabelecimento },
+        {
+          model: Estabelecimento,
+          where: { VizinhancaidVizinhanca: neighborhoodId },
+          include: [{ model: Endereco }],
+        },
         { model: estadoProduto },
-        { model: tipoProduto }
+        { model: tipoProduto },
       ],
     });
 
     return product;
   } catch (error) {
-    console.error("Error getting product by establishment from database:", error);
+    console.error(
+      "Error getting product by establishment from database:",
+      error
+    );
+    throw error;
+  }
+};
+
+const getProductByAllEstablishment = async (establishmentId) => {
+  try {
+    const product = await Produto.findAll({
+      where: { EstabelecimentoidEstabelecimento: establishmentId },
+      include: [
+        { model: Estabelecimento, include: [{ model: Endereco }] },
+        { model: estadoProduto },
+        { model: tipoProduto },
+      ],
+    });
+
+    return product;
+  } catch (error) {
+    console.error(
+      "Error getting product by establishment from database:",
+      error
+    );
     throw error;
   }
 };
@@ -104,4 +150,13 @@ const deleteProduct = async (productId) => {
   }
 };
 
-module.exports = { getProductById, getProductByType, getProduct, getProductByEstablishment, createProduct, updateProduct, deleteProduct };
+module.exports = {
+  getProductById,
+  getProductByType,
+  getProduct,
+  getProductByEstablishment,
+  getProductByAllEstablishment,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

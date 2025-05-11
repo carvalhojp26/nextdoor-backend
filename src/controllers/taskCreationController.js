@@ -62,7 +62,7 @@ const getTasksCreationByCategoryController = async (req, res) => {
 };
 
 const getTasksCreationByNeighborhoodController = async (req, res) => {
-  const userId = req.user.idUtilizador
+  const userId = req.user.idUtilizador;
   try {
     const findUser = await userService.getUser(userId);
     const neighborhoodId = findUser.VizinhançaidVizinhança;
@@ -81,33 +81,35 @@ const createTaskCreationController = async (req, res) => {
     dataInicio,
     dataFim,
     categoriaTarefaidCategoriaTarefa,
-    estadoCriacaoTarefaidEstadoCriacaoTarefa,
     descricaoTarefa,
   } = req.body;
 
   const userId = req.user.idUtilizador;
-
+  
   if (
     !nomeTarefa ||
-    !categoriaTarefaidCategoriaTarefa ||
-    !estadoCriacaoTarefaidEstadoCriacaoTarefa
+    !categoriaTarefaidCategoriaTarefa
   ) {
     return res.status(400).json({ error: "Missing required fields." });
   }
-
+  
+  if (nomeTarefa.length > 100) {
+    return res.status(400).json({ error: "Task name needs to have less than 100 characters" });
+  }
+  
   const startDate = new Date(dataInicio);
   const endDate = new Date(dataFim);
-
+  
   if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
     return res.status(400).json({ error: "Invalid date format." });
   }
-
+  
   if (startDate > endDate) {
     return res
-      .status(400)
-      .json({ error: "Start date must be before or equal to end date." });
+    .status(400)
+    .json({ error: "Start date must be before or equal to end date." });  
   }
-
+  
   try {
     const newTask = await taskCreationService.createTaskCreation({
       nomeTarefa,
@@ -116,7 +118,6 @@ const createTaskCreationController = async (req, res) => {
       descricaoTarefa,
       UtilizadoridUtilizador: userId,
       categoriaTarefaidCategoriaTarefa,
-      estadoCriacaoTarefaidEstadoCriacaoTarefa,
     });
 
     res
@@ -125,13 +126,13 @@ const createTaskCreationController = async (req, res) => {
   } catch (error) {
     console.error("Error creating task:", error);
     res.status(500).json({ error: "Error creating task" });
+
   }
 };
 
 const updateTaskCreationController = async (req, res) => {
   const { taskCreationId } = req.params;
   const updateFields = req.body;
-  const userId = req.user.idUtilizador;
 
   try {
     if (updateFields.dataInicio && updateFields.dataFim) {
@@ -152,7 +153,6 @@ const updateTaskCreationController = async (req, res) => {
     const updated = await taskCreationService.updateTaskCreation(
       taskCreationId,
       updateFields,
-      userId
     );
 
     if (updated === 0) {
@@ -173,7 +173,10 @@ const deleteTaskCreationController = async (req, res) => {
   const { taskCreationId } = req.params;
 
   try {
-    const deleted = await taskCreationService.deleteTaskCreation(taskCreationId, userId);
+    const deleted = await taskCreationService.deleteTaskCreation(
+      taskCreationId,
+      userId
+    );
 
     if (deleted === 0) {
       return res.status(404).json({ error: "Task not found" });
@@ -188,10 +191,10 @@ const deleteTaskCreationController = async (req, res) => {
 
 module.exports = {
   getAllTaskCreationController,
-  getTaskCreationController: getTasksCreationController,
-  getTaskCreationByCategoryController: getTasksCreationByCategoryController,
+  getTasksCreationController,
+  getTasksCreationByCategoryController,
   getTaskCreationByIdController,
-  getTaskCreationByNeighborhoodController: getTasksCreationByNeighborhoodController,
+  getTasksCreationByNeighborhoodController,
   createTaskCreationController,
   updateTaskCreationController,
   deleteTaskCreationController,

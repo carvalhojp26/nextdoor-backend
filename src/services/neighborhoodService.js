@@ -2,8 +2,7 @@ const { Vizinhanca } = require("../models/association/associations");
 
 const getNeighborhood = async () => {
   try {
-    const neighborhoods = await Vizinhanca.findAll({
-    });
+    const neighborhoods = await Vizinhanca.findAll();
     return neighborhoods;
   } catch (error) {
     console.error("Error getting neighborhoods in database:", error);
@@ -23,7 +22,9 @@ const createNeighborhood = async (body) => {
 
 const deleteNeighborhood = async (neighborhoodId) => {
   try {
-    const deleted = await Vizinhanca.destroy({ where: { idVizinhanca: neighborhoodId } });
+    const deleted = await Vizinhanca.destroy({
+      where: { idVizinhanca: neighborhoodId },
+    });
     return deleted;
   } catch (error) {
     console.error("Error deleting neighborhood in database:", error);
@@ -31,4 +32,4 @@ const deleteNeighborhood = async (neighborhoodId) => {
   }
 };
 
-module.exports = {getNeighborhood, createNeighborhood, deleteNeighborhood}
+module.exports = { getNeighborhood, createNeighborhood, deleteNeighborhood };
